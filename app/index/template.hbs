@@ -1,0 +1,39 @@
+<button {{action (route-action 'addGradientStop')}}>Add stop</button>
+<br>
+<br>
+<br>
+{{#each gradientStops as |gradientStop|}}
+	{{gradient-stop
+		gradientStop=gradientStop
+	}}
+{{/each}}
+
+{{#if gradientStops.length}}
+	<pre>
+		<code>
+			body {
+				background: {
+					linear-gradient(
+						{{#each gradientStopsAsc as |gradientStop idx|}}
+							#{{gradientStop.color}} {{gradientStop.left}}%{{#if (lt idx gradientStopsMax)}},{{/if}}
+						{{/each}}
+					)
+				}
+			}
+		</code>
+	</pre>
+{{/if}}
+
+{{#if (gt gradientStopsAsc.length 1)}}
+<style type="text/css">
+	body {
+		background: linear-gradient(90deg, {{gradientCss}});
+	}
+</style>
+{{else}}
+<style type="text/css">
+	body {
+		background-color: #{{{gradientStops.firstObject.color}}};
+	}
+</style>
+{{/if}}

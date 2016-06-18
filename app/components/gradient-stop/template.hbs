@@ -1,0 +1,6 @@
+<button {{action (toggle 'isShowingColorPicker' this)}}>&nbsp;</button>
+{{#if isShowingColorPicker}}
+	{{col-pick 
+		value=color
+	}}
+{{/if}}

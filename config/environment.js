@@ -2,9 +2,8 @@
 
 module.exports = function(environment) {
   var ENV = {
-    modulePrefix: 'colori-ember',
+    modulePrefix: 'colori',
     environment: environment,
-    baseURL: '/',
     locationType: 'auto',
     EmberENV: {
       FEATURES: {
