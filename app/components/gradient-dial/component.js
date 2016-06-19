@@ -18,7 +18,11 @@ function calcLinearDistance(pointA, pointB) {
 
 export default Component.extend({
   classNames: ['gradient-dial'],
+  movesPosition: false,
+  scalesWidth: false,
+  scalesHeight: false,
 
+  // Dimensional attributes
   x: 0,
   y: 0,
   w: 200,
@@ -150,24 +154,28 @@ export default Component.extend({
     let ctrX = element[0].offsetLeft + (element[0].clientWidth / 2);
     let ctrY = element[0].offsetTop + (element[0].clientHeight / 2);
     let angle = Math.atan2(-(ctrY - y), -(ctrX - x)) * 180 / Math.PI + 180;
-    let width = calcLinearDistance({x: x, y: y}, {x: ctrX, y: ctrY}) * 2;
 
     this.set('x', x);
     this.set('y', y);
     this.set('ctrX', ctrX);
     this.set('ctrY', ctrY);
     this.set('_angle', angle);
-    this.set('width', width);
+    
     let ellipsecenter = {
       x: this.get('ctrX'),
       y: this.get('ctrY')
     };
 
+    // Update width if allowed by implementation
+    if (this.get('scalesWidth')) {
+      let width = calcLinearDistance({x: x, y: y}, {x: ctrX, y: ctrY}) * 2;
+      this.set('width', width);
+      this.updateWidth(width);
+      this.set('ellipsewidth', width);  
+    }
+
     this.updateAngle(angle);
-    this.updateWidth(width);
-    
     this.set('_angle', angle + this.get('startAngle'));
-    this.set('ellipsewidth', width);
     this.set('ellipsecenter', ellipsecenter);
   },
 

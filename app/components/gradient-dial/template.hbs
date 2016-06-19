@@ -1,3 +1,7 @@
 <span class="gradient-dial__handle gradient-dial__handle--size" {{action 'resizeEllipse' on="mouseDown"}}></span>
-<span class="gradient-dial__handle gradient-dial__handle--height" {{action 'changeEllipseHeight' on="mouseDown"}}></span>
-<span class="gradient-dial__handle gradient-dial__handle--centerPos" {{action 'changeEllipseCenter' on="mouseDown"}}>+</span>
+{{#if scalesHeight}}
+	<span class="gradient-dial__handle gradient-dial__handle--height" {{action 'changeEllipseHeight' on="mouseDown"}}></span>
+{{/if}}
+{{#if movesPosition}}
+	<span class="gradient-dial__handle gradient-dial__handle--centerPos" {{action 'changeEllipseCenter' on="mouseDown"}}>+</span>
+{{/if}}
