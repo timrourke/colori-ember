@@ -1,6 +1,12 @@
 <button {{action (toggle 'isShowingColorPicker' this)}}>&nbsp;</button>
 {{#if isShowingColorPicker}}
-	{{col-pick 
-		value=color
+	{{spectrum-color-picker
+		clickoutFiresChange=true
+		flatMode=true
+		moveFiresChange=true
+		preferredFormat='rgb'
+		showAlpha=true
+		showInput=true
+		onChange=(action 'colorChanged')
 	}}
 {{/if}}

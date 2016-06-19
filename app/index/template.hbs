@@ -22,12 +22,12 @@ body {
 		linear-gradient(
 			{{angle}}deg,
 			{{#each gradientStopsAsc as |gradientStop idx|}}
-			#{{gradientStop.color}} {{gradientStop.left}}%{{#if (lt idx gradientStopsMax)}},{{/if}}
+			{{gradientStop.color}} {{gradientStop.left}}%{{#if (lt idx gradientStopsMax)}},{{/if}}
 			{{/each}}
 		)
 	}
 	{{else}}
-	background-color: #{{gradientStops.firstObject.color}};	
+	background-color: {{gradientStops.firstObject.color}};	
 	{{/if}}
 }
 </code></pre>
@@ -42,7 +42,7 @@ body {
 {{else if gradientStopsAsc.length}}
 <style type="text/css">
 	body {
-		background-color: #{{gradientStops.firstObject.color}};
+		background-color: {{gradientStops.firstObject.color}};
 	}
 </style>
 {{/if}}

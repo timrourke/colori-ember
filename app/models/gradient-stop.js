@@ -7,9 +7,9 @@ const { computed } = Ember;
 
 export default Model.extend({
   left: attr('number', { defaultValue: 50 }),
-  color: attr('string', { defaultValue: 'FFFFFF' }),
+  color: attr('string', { defaultValue: 'rgb(255,255,255)' }),
 
   cssString: computed('left', 'color', function() {
-    return `#${this.get('color')} ${this.get('left')}%`;
+    return `${this.get('color')} ${this.get('left')}%`;
   }),
 });
