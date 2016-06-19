@@ -1,8 +1,5 @@
-*,
-*:before,
-*:after {
-	box-sizing: border-box;
-}
+// Imports
+@import 'imports/normalize';
 
 html,
 body {
@@ -10,10 +7,10 @@ body {
 }
 
 body {
-	padding: 0;
-	margin: 0;
 	position: relative;
 }
 
+// Components
 @import 'components/gradient-dial';
 @import 'components/gradient-stop';
+@import 'components/spectrum-color-picker';

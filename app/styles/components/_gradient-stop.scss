@@ -1,5 +1,6 @@
 .gradient-stop {
 	position: absolute;
+	bottom: 20px;
 	width: 40px;
 	height: 40px;
 	border-radius: 100%;
@@ -16,7 +17,9 @@
 	outline: none;
 	-webkit-appearance: none;
 	background: transparent;
-	&:before {
+	filter: invert(100%) grayscale(100%);
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+	.arrow {
 		position: absolute;
 		display: block;
 		content: '';
@@ -24,7 +27,7 @@
 		left: 12px;
 		border-left: 6px solid transparent;
 		border-right: 6px solid transparent;
-		border-bottom: 6px solid black;
+		border-bottom: 6px solid #ddd;
 		z-index: -1;
 	}
 }

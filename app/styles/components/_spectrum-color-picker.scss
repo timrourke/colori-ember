@@ -1,0 +1,12 @@
+.sp-container.sp-flat {
+	position: absolute;
+	top: initial;
+	bottom: 50px;
+}
+.sp-container--left + .sp-container {
+	left: 50%;
+}
+.sp-container--right + .sp-container {
+	left: initial;
+	right: 50%;
+}

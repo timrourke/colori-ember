@@ -1,7 +1,10 @@
-<button {{action (toggle 'isShowingColorPicker' this)}}>&nbsp;</button>
+<button {{action 'toggleIsShowingColorPicker'}}>
+	<span class="arrow"></span>
+</button>
 {{#if isShowingColorPicker}}
 	{{spectrum-color-picker
-		clickoutFiresChange=true
+		class=colorPickerPositionClass
+		color=color
 		flatMode=true
 		moveFiresChange=true
 		preferredFormat='rgb'

@@ -2,26 +2,47 @@ import Ember from 'ember';
 import ClickOutside from 'ember-click-outside/mixins/click-outside';
 import DraggableElement from 'colori/mixins/draggable-element';
 
-const { Component, observer, on, run } = Ember;
+const { Component, computed, on, run } = Ember;
 const { next, scheduleOnce } = run;
 
 export default Component.extend(ClickOutside, DraggableElement, {
   classNames: ['gradient-stop'],
   color: '',
   gradientStop: null,
+  hasRoomToRight: true,
   isShowingColorPicker: false,
 
   _elementWidth: 0,
   _halfElementWidth: 0,
   _parentWidth: 0,
 
+  /**
+   * @property hasRoomToRight
+   *
+   * Reposition color picker if there isn't room to fit in window
+   */
+  colorPickerPositionClass: computed('hasRoomToRight', function() {
+    if (this.get('hasRoomToRight')) {
+      return 'sp-container--left';   
+    }
+    return 'sp-container--right';
+  }),
+
   init() {
     this._super(...arguments);
 
     // Initialize the gradient-stop's properties
-    this.set('color', this.get('gradientStop.color'));
+    let color = this.get('gradientStop.color');
+    this.set('color', color);
     scheduleOnce('afterRender', this, () => {
-      this.$().css('left', `${this.get('gradientStop.left')}%`);
+      this.$().css({ 
+        left: `${this.get('gradientStop.left')}%`,
+        backgroundColor: color
+      });
+      this.$('button').css({
+        border: `2px solid ${color}`
+      });
+      this.$('button .arrow').css('border-bottom', `6px solid ${color}`);
     });
   },
 
@@ -48,6 +69,16 @@ export default Component.extend(ClickOutside, DraggableElement, {
     });
   },
 
+  /**
+   * Simple collision detection for placement of color picker
+   */
+  testColorPickerPosition() {
+    run(() => {
+      let hasRoomToRight = (this.$().offset().left + 240) < window.innerWidth;
+      this.set('hasRoomToRight', hasRoomToRight);
+    });
+  },
+
   actions: {
     /**
      * @param String color  Color value
@@ -57,6 +88,11 @@ export default Component.extend(ClickOutside, DraggableElement, {
     colorChanged: function(color) {
       run(() => {
         this.set('gradientStop.color', color);
+        this.$().css('backgroundColor', color);
+        this.$('button').css({
+          border: `2px solid ${color}`
+        });
+        this.$('button .arrow').css('border-bottom', `6px solid ${color}`);
       });
     },
 
@@ -92,5 +128,22 @@ export default Component.extend(ClickOutside, DraggableElement, {
         this.set('gradientStop.left', leftPercentage);
       });
     },
+
+    /**
+     * @param Object event  Event object
+     *
+     * Handle dragStop of gradient-stop
+     */
+    dragStop() {
+      this.testColorPickerPosition()
+    },
+
+    /**
+     * Handle click event on gradient-stop
+     */
+    toggleIsShowingColorPicker() {
+      this.toggleProperty('isShowingColorPicker');
+      this.testColorPickerPosition();
+    }
   }
 });
