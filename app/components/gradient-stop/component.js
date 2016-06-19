@@ -25,7 +25,7 @@ export default Component.extend(ClickOutside, DraggableElement, {
     });
   },
 
-   _attachClickOutsideHandler: on('didInsertElement', function() {
+  _attachClickOutsideHandler: on('didInsertElement', function() {
     next(this, this.addClickOutsideListener);
   }),
 
@@ -34,11 +34,15 @@ export default Component.extend(ClickOutside, DraggableElement, {
   }),
 
   clickOutside() {
-    this.set('isShowingColorPicker', false);
+    run(() => {
+      this.set('isShowingColorPicker', false);
+    });
   },
 
   colorObserver: observer('color', function() {
-    this.set('gradientStop.color', this.get('color'));
+    run(() => {
+      this.set('gradientStop.color', this.get('color'));
+    });
   }),
 
   actions: {
@@ -58,14 +62,11 @@ export default Component.extend(ClickOutside, DraggableElement, {
       if (leftPercentage < 0 || rightPercentage > 100) {
         return;
       }
-      Ember.run(() => {
+
+      run(() => {
         this.$().css('left', `${leftPercentage}%`);
         this.set('gradientStop.left', leftPercentage);
       });
-    },
-
-    dragEnd() {
-      // Override in implementation
     },
   }
 });

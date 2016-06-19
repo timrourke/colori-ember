@@ -4,7 +4,7 @@ const { Controller, computed } = Ember;
 const { htmlSafe } = Ember.String;
 
 export default Controller.extend({
-
+  angle: 0,
   gradientStops: [],
 
   gradientStopsAsc: computed('gradientStops.@each.left', function() {
@@ -21,5 +21,4 @@ export default Controller.extend({
     });
     return htmlSafe(cssArray.join(',\n'));
   }),
-
 });

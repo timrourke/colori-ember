@@ -8,32 +8,41 @@
 	}}
 {{/each}}
 
-{{#if gradientStops.length}}
-	<pre>
-		<code>
-			body {
-				background: {
-					linear-gradient(
-						{{#each gradientStopsAsc as |gradientStop idx|}}
-							#{{gradientStop.color}} {{gradientStop.left}}%{{#if (lt idx gradientStopsMax)}},{{/if}}
-						{{/each}}
-					)
-				}
-			}
-		</code>
-	</pre>
+{{gradient-dial
+	angle=angle
+}}
+
+{{input type="number" value=angle}}
+
+{{#if gradientStopsAsc.length}}
+<pre><code>
+body {
+	{{#if (gt gradientStopsAsc.length 1)}}
+	background: {
+		linear-gradient(
+			{{angle}}deg,
+			{{#each gradientStopsAsc as |gradientStop idx|}}
+			#{{gradientStop.color}} {{gradientStop.left}}%{{#if (lt idx gradientStopsMax)}},{{/if}}
+			{{/each}}
+		)
+	}
+	{{else}}
+	background-color: #{{gradientStops.firstObject.color}};	
+	{{/if}}
+}
+</code></pre>
 {{/if}}
 
 {{#if (gt gradientStopsAsc.length 1)}}
 <style type="text/css">
 	body {
-		background: linear-gradient(90deg, {{gradientCss}});
+		background: linear-gradient({{angle}}deg, {{gradientCss}});
 	}
 </style>
-{{else}}
+{{else if gradientStopsAsc.length}}
 <style type="text/css">
 	body {
-		background-color: #{{{gradientStops.firstObject.color}}};
+		background-color: #{{gradientStops.firstObject.color}};
 	}
 </style>
 {{/if}}
