@@ -114,11 +114,10 @@ export default Component.extend(ClickOutside, DraggableElement, {
      * Handle lateral dragging of gradient-stop
      */
     dragDrag(event) {
-      let elementWidth = this.get('_elementWidth');
       let parentWidth = this.get('_parentWidth');
-      let middle = event.clientX;
-      let leftPercentage = (middle / parentWidth) * 100;
-      let rightPercentage = ((middle + elementWidth) / parentWidth) * 100;
+      let middle = this.$().offset().left + this.get('_halfElementWidth');
+      let leftPercentage = (event.clientX / parentWidth) * 100;
+      let rightPercentage = ((middle) / parentWidth) * 100;
       if (leftPercentage < 0 || rightPercentage > 100) {
         return;
       }
@@ -135,7 +134,7 @@ export default Component.extend(ClickOutside, DraggableElement, {
      * Handle dragStop of gradient-stop
      */
     dragStop() {
-      this.testColorPickerPosition()
+      this.testColorPickerPosition();
     },
 
     /**
