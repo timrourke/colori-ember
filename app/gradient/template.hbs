@@ -1,0 +1,60 @@
+<h1>{{gradient.title}}</h1>
+<p>{{gradient.description}}</p>
+
+<button {{action (route-action 'addGradientStop')}}>Add stop</button><br>
+<button {{action (route-action 'addGradientLayer')}}>Add layer</button>
+<br>
+<br>
+<br>
+{{#each activeGradientLayer.gradientStops as |gradientStop|}}
+	{{gradient-stop
+		gradientStop=gradientStop
+	}}
+{{/each}}
+
+{{gradient-dial
+	angle=activeGradientLayer.angle
+}}
+
+{{input type="number" value=activeGradientLayer.angle}}
+
+{{!-- {{#if allGradientLayers.length}}
+<pre><code>
+body {
+	{{#if (gt allGradientLayers.length 1)}}
+	background: {
+		{{#each allGradientLayers as |gradientLayer glIndex|}}
+		linear-gradient(
+			{{gradientLayer.angle}}deg,
+			{{#each gradientStopsAsc as |gradientStop gsIndex|}}
+			{{gradientStop.color}} {{gradientStop.left}}%{{#if (lt gsIndex gradientStopsMax)}},{{/if}}
+			{{/each}}
+		){{#if (lt glIndex gradientLayersMax)}},{{/if}}
+		{{/each}}
+	}
+	{{else}}
+	background-color: {{allGradientLayers.firstObject.gradientStops.firstObject.color}};	
+	{{/if}}
+}
+</code></pre>
+{{/if}} --}}
+
+{{#if allGradientLayers.length}}
+<style type="text/css">
+	body {
+		background: {{allGradientLayers}};
+	}
+</style>
+{{else}}
+<style type="text/css">
+	body {
+		background-color: {{gradient.gradientLayers.firstObject.gradientStops.firstObject.color}};
+	}
+</style>
+{{/if}}
+
+{{gradient-layers
+	activeGradientLayerId=activeGradientLayer.id
+	gradientLayers=gradient.gradientLayers
+	setActiveGradientLayer=(action 'setActiveGradientLayer')
+}}

@@ -1,7 +1,7 @@
 {
-  "name": "colori",
+  "name": "color-storm",
   "version": "0.0.0",
-  "description": "Small description for colori goes here",
+  "description": "Small description for colorStorm goes here",
   "private": true,
   "directories": {
     "doc": "doc",

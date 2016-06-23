@@ -1,0 +1,14 @@
+<ul>
+	{{#each gradients as |gradient|}}
+	<li>
+		<div class="gradient">
+			{{#link-to 'gradient' gradient}}
+				<h3>{{gradient.title}}</h3>
+			{{/link-to}}
+			<p>{{gradient.description}}</p>
+		</div>
+	</li>
+	{{/each}}
+</ul>
+
+{{outlet}}

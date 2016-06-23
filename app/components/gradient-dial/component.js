@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import { didAttrUpdate } from 'colori/utils/did-attr-update';
+import { didAttrUpdate } from 'color-storm/utils/did-attr-update';
 
 const { Component, computed, run } = Ember;
 const { debounce, scheduleOnce } = run;

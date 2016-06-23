@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import ClickOutside from 'ember-click-outside/mixins/click-outside';
-import DraggableElement from 'colori/mixins/draggable-element';
+import DraggableElement from 'color-storm/mixins/draggable-element';
 
 const { Component, computed, on, run } = Ember;
 const { next, scheduleOnce } = run;

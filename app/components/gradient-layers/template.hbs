@@ -1,0 +1,13 @@
+<ul>
+{{#each gradientLayers as |gradientLayer index|}}
+	<li {{action 'setActiveGradientLayer' gradientLayer}}>
+		{{#gradient-layer
+			activeGradientLayerId=activeGradientLayerId
+			gradientLayer=gradientLayer
+		}}
+			{{index}}
+		{{/gradient-layer}}
+	</li>
+{{/each}}
+</ul>
+<h1>{{activeGradientLayerId}}</h1>
