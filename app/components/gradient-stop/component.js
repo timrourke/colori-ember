@@ -30,7 +30,7 @@ export default Component.extend(ClickOutside, DraggableElement, {
 
   init() {
     this._super(...arguments);
-
+    console.log('gradient-stop initing', [this.get('gradientStop.left'), this.get('gradientStop.color')]);
     // Initialize the gradient-stop's properties
     let color = this.get('gradientStop.color');
     this.set('color', color);

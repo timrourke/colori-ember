@@ -1,9 +1,11 @@
 import Ember from 'ember';
 
 const { Controller, computed } = Ember;
+const { sort } = computed;
 
 export default Controller.extend({
-  activeGradientLayer: computed('gradient.gradientLayers.firstObject', {
+  activeGradientLayer: computed('gradient.gradientLayers.firstObject',
+                                'gradient.gradientLayers.firstObject.gradientStops.@each.color', {
     get() {
       return this.get('gradient.gradientLayers.firstObject');
     },
@@ -24,16 +26,19 @@ export default Controller.extend({
       }).filter((gl) => gl).join(', ');
   }),
 
+  gradientLayersMax: computed('gradient.gradientLayers.length', function() {
+    return this.get('gradient.gradientLayers.length') - 1;
+  }),
+
+  gradientLayersSorted: sort('gradient.gradientLayers', 'gradientLayersSortedSort'),
+  gradientLayersSortedSort: ['order'],
+
   gradientStopsAsc: computed('activeGradientLayer.gradientStops.@each.left', function() {
     return this.get('activeGradientLayer.gradientStops').sortBy('left');
   }),
 
   gradientStopsMax: computed('activeGradientLayer.gradientStops.length', function() {
     return this.get('activeGradientLayer.gradientStops.length') - 1;
-  }),
-
-  gradientLayersMax: computed('gradient.gradientLayers.length', function() {
-    return this.get('gradient.gradientLayers.length') - 1;
   }),
 
   actions: {

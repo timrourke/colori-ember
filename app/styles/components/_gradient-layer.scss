@@ -1,17 +1,25 @@
 .gradient-layer {
 	position: relative;
-	width: 4em; 
-	height: 4em; 
-	margin-bottom: 1em; 
+	width: 60px; 
+	height: 60px; 
+	margin-bottom: 10px; 
 	float: left; 
 	outline: 1px solid black;
 	text-align: center;
-	line-height: 4em;
+	line-height: 60px;
 	background: white;
+}
+
+.gradient-layer * {
+	// pointer-events: none;
 }
 
 .gradient-layer.active {
 	outline: 1px solid white;
+}
+
+.gradient-layer.dragging {
+	opacity: 0;
 }
 
 .gradient-layer .gradient-layer__background {

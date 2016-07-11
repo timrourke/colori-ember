@@ -6,7 +6,7 @@ module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
     // Add options here
     autoprefixer: {
-      browsers: ['last 2 ios version'],
+      browsers: ['last 10 ios version'],
       cascade: false
     }
   });

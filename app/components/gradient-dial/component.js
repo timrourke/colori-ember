@@ -30,7 +30,6 @@ export default Component.extend({
   ctrX: 0,
   ctrY: 0,
   _angle: 0,
-  startAngle: 0,
 
   /**
    * @property _angle
@@ -56,12 +55,10 @@ export default Component.extend({
     scheduleOnce('afterRender', this, () => {
       this.set('x', (parseInt(window.innerWidth) / 2) - (w / 2));
       this.set('y',  (parseInt(window.innerHeight) / 2) - (h / 2));
-      this.set('angle', 0);
       this.$().css({
         position: 'absolute',
         top: (parseInt(window.innerHeight) / 2) - (h / 2) + 'px',
         left: (parseInt(window.innerWidth) / 2) - (w / 2) + 'px',
-        transform: `rotateZ(${this.get('startAngle')}deg)`,
         borderRadius: '50%',
         display: 'block',
         width: `${w}px`,
@@ -69,9 +66,18 @@ export default Component.extend({
       });
 
       Ember.$('body').on('mouseup', this.unbindEvents);
+
+      // Set the initial dial angle
+      let angle = parseInt(this.get('angle'), 10) || 0;
+      this.fireManualUpdateAngle(angle);
     });
   },
 
+  /**
+   * @param Object attrs
+   *
+   * Update the dial angle on didUpdateAttrs
+   */
   didUpdateAttrs(attrs) { 
     if (didAttrUpdate(attrs, 'angle')) {
       let angle = parseInt(attrs.newAttrs.angle.value, 10);
@@ -79,6 +85,9 @@ export default Component.extend({
     }
   },
 
+  /**
+   * Remove event bindings on willDestroyElement
+   */
   willDestroyElement() {
     this.unbindEvents();
   },
@@ -159,7 +168,7 @@ export default Component.extend({
     this.set('y', y);
     this.set('ctrX', ctrX);
     this.set('ctrY', ctrY);
-    this.set('_angle', angle);
+    // this.set('_angle', angle);
     
     let ellipsecenter = {
       x: this.get('ctrX'),
@@ -174,8 +183,8 @@ export default Component.extend({
       this.set('ellipsewidth', width);  
     }
 
-    this.updateAngle(angle);
-    this.set('_angle', angle + this.get('startAngle'));
+    this.updateAngle(angle - 90);
+    this.set('_angle', angle - 90);
     this.set('ellipsecenter', ellipsecenter);
   },
 
@@ -196,11 +205,10 @@ export default Component.extend({
    */
   updateAngle(angle) {        
     let element = this.$();
-    let newAngle = angle + this.get('startAngle');
 
     run(() => {
       element.css({
-        transform: `rotateZ(${newAngle}deg)`
+        transform: `rotateZ(${angle}deg)`
       });
     });
   },

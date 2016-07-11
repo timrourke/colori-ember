@@ -20,6 +20,11 @@ module.exports = function(environment) {
     DS: {
       host: 'http://localhost:4000',
       namespace: 'api'
+    },
+
+    velocityOptions: {
+      enabled: true, // enabled the addon (default: true)
+      ui: false // add Velocity UI Pack (default: false)
     }
   };
 

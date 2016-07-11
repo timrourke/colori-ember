@@ -10,15 +10,25 @@ export default Mixin.create({
     this._super(...arguments);
 
     scheduleOnce('afterRender', this, () => {
-      Ember.$('body').on(`mouseup.${this.elementId}`, (e) => {
+      Ember.$(document).on(`mouseup.${this.elementId}`, (e) => {
+        if (this.isDestroyed) {
+          return false;
+        }
         this.handleMouseUp(e);
       });
 
       this.$().on(`mousedown.${this.elementId}`, (e) => {
+        if (this.isDestroyed) {
+          return false;
+        }
         this.handleMouseDown(e);
+        return false;
       });
 
-      Ember.$('body').on(`mousemove.${this.elementId}`, (e) => {
+      Ember.$(document).on(`mousemove.${this.elementId}`, (e) => {
+        if (this.isDestroyed) {
+          return false;
+        }
         this.handleMouseMove(e);
       });
     });
@@ -43,7 +53,7 @@ export default Mixin.create({
   willDestroyElement() {
     this._super(...arguments);
 
-    Ember.$('body').off(`.${this.elementId}`);
+    Ember.$(window).off(`.${this.elementId}`);
   },
 
   actions: {

@@ -1,18 +1,24 @@
+// Variables
+@import 'variables/colors';
+
 // Imports
 @import 'imports/normalize';
+@import 'imports/typeplate-sk/typeplate-index';
+@import 'imports/typography';
 
-html,
-body {
-	height: 100%;
-}
+// Layout
+@import 'layout/main-layout';
+@import 'layout/header';
+@import 'layout/footer';
+@import 'layout/containers';
 
-body {
-	position: relative;
-}
+// Utils
+@import 'utils/flex';
 
 // Components
 @import 'components/gradient-dial';
 @import 'components/gradient-layer';
+@import 'components/gradient-layer-clone';
 @import 'components/gradient-layers';
 @import 'components/gradient-stop';
 @import 'components/spectrum-color-picker';

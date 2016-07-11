@@ -1,0 +1,23 @@
+<div class="header flex-container">
+	<div class="header__branding">
+		<h1 class="site-title">
+			{{#link-to "index"}}ColorStorm{{/link-to}}
+		</h1>
+	</div>
+	<div class="header__nav nav">
+		<ul class="nav__list">
+			<li class="nav__list-item">
+				{{#link-to "index"}}Home{{/link-to}}
+			</li>
+			<li class="nav__list-item">
+				{{#link-to "gradients"}}Gradients{{/link-to}}
+			</li>
+		</ul>
+	</div>
+</div>
+<div id="main">
+	{{outlet 'main'}}
+</div>
+<div class="footer font-size-small">
+	<span class="footer__copyright">&copy; 2016 Tim Rourke</span>
+</div>

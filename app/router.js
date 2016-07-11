@@ -6,8 +6,9 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('gradients');
-  this.route('gradient', { path: '/:gradient_id' });
+  this.route('gradients', function() {
+    this.route('gradient', { path: '/:gradient_id' });  
+  });
 });
 
 export default Router;

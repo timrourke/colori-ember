@@ -7,10 +7,10 @@ import ModelTimestamps from 'color-storm/mixins/model-timestamps';
 const { computed } = Ember;
 
 export default Model.extend(ModelTimestamps, {
-  left:   attr('number', { defaultValue: 50 }),
-  color:  attr('string', { defaultValue: 'rgb(255,255,255)' }),
+  left:   attr('number'),
+  color:  attr('string'),
 
-  gradientLayer: belongsTo('gradient-layer'),
+  gradientLayer: belongsTo('gradient-layer', {async: true}),
 
   /**
    * @property left

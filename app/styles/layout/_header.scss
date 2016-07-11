@@ -1,0 +1,24 @@
+.header {
+	@extend %light-on-dark;
+	padding: 1em 1em 0 1em;
+	width: 100%;
+	justify-content: space-between;
+	flex-grow: 0;
+	flex-shrink: 0;
+}
+
+.header__branding .site-title {
+	@extend .typl8-delta;
+	color: white;
+}
+
+.nav ul {
+	display: flex;
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+.nav ul li {
+	padding-left: 1em;
+}

@@ -1,13 +1,28 @@
+<p>Layers</p>
 <ul>
 {{#each gradientLayers as |gradientLayer index|}}
 	<li {{action 'setActiveGradientLayer' gradientLayer}}>
-		{{#gradient-layer
+		{{gradient-layer
 			activeGradientLayerId=activeGradientLayerId
+			cloneTop=cloneTop
+			cloneDeltaY=cloneDeltaY
+			cloneGradientLayer=cloneGradientLayer
 			gradientLayer=gradientLayer
+			isCloneActive=isCloneActive
+			mousePos=mousePos
+			order=gradientLayer.order
+			hideClone=(action 'hideClone')
+			initClone=(action 'initClone')
+			moveClone=(action 'moveClone')
+			showClone=(action 'showClone')
+			swapOrder=(route-action 'swapOrder')
 		}}
-			{{index}}
-		{{/gradient-layer}}
 	</li>
 {{/each}}
 </ul>
-<h1>{{activeGradientLayerId}}</h1>
+
+{{#if isCloneActive}}
+	{{gradient-layer-clone
+		gradientLayerCloneCss=gradientLayerCloneCss
+	}}
+{{/if}}

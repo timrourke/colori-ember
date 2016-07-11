@@ -6,8 +6,11 @@ export default Ember.Route.extend({
     return [];
   },
 
-  setupController() {
-    //
+  renderTemplate() {
+    this.render('index', {
+      outlet: 'main',
+      into: 'application',
+    });
   },
 
   actions: {
