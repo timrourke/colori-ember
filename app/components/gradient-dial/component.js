@@ -168,7 +168,6 @@ export default Component.extend({
     this.set('y', y);
     this.set('ctrX', ctrX);
     this.set('ctrY', ctrY);
-    // this.set('_angle', angle);
     
     let ellipsecenter = {
       x: this.get('ctrX'),
@@ -196,6 +195,7 @@ export default Component.extend({
     Ember.$('body').off('mousemove.gradient-dial');
     Ember.$('body').off('mousemove.gradient-dial');
     Ember.$('body').off('mouseup.gradient-dial');
+    Ember.$('body').css('cursor', '');
   },
 
   /**
@@ -267,8 +267,10 @@ export default Component.extend({
      */
     changeEllipseCenter() {
       Ember.$('body').on('mousemove.gradient-dial', (e) => {
-        this.changeEllipseCenter(e);
+        run(() => this.changeEllipseCenter(e));
       });
+      Ember.$('body').attr('style', 
+        'cursor: -webkit-grabbing; cursor: grabbing;');
     },
 
     /**
@@ -276,8 +278,10 @@ export default Component.extend({
      */
     changeEllipseHeight() {
       Ember.$('body').on('mousemove.gradient-dial', (e) => {
-        this.changeEllipseHeight(e);
+        run(() => this.changeEllipseHeight(e));
       });
+      Ember.$('body').attr('style', 
+        'cursor: -webkit-grabbing; cursor: grabbing;');
     },
 
     /**
@@ -285,8 +289,10 @@ export default Component.extend({
      */
     resizeEllipse() {
       Ember.$('body').on('mousemove.gradient-dial', (e) => {
-        this.resizeEllipse(e);
+        run(() => this.resizeEllipse(e));
       });
+      Ember.$('body').attr('style', 
+        'cursor: -webkit-grabbing; cursor: grabbing;');
     },
   }
 });

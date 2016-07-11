@@ -28,23 +28,25 @@ export default Component.extend(ClickOutside, DraggableElement, {
     return 'sp-container--right';
   }),
 
-  init() {
+  initStyles: on('init', function() {
     this._super(...arguments);
-    console.log('gradient-stop initing', [this.get('gradientStop.left'), this.get('gradientStop.color')]);
+
     // Initialize the gradient-stop's properties
-    let color = this.get('gradientStop.color');
-    this.set('color', color);
-    scheduleOnce('afterRender', this, () => {
-      this.$().css({ 
-        left: `${this.get('gradientStop.left')}%`,
-        backgroundColor: color
+    this.get('gradientStop').on('ready', () => {
+      let color = this.get('gradientStop.color');
+      this.set('color', color);
+      scheduleOnce('afterRender', this, () => {
+        this.$().css({ 
+          left: `${this.get('gradientStop.left')}%`,
+          backgroundColor: color
+        });
+        this.$('button').css({
+          border: `2px solid ${color}`
+        });
+        this.$('button .arrow').css('border-bottom', `6px solid ${color}`);
       });
-      this.$('button').css({
-        border: `2px solid ${color}`
-      });
-      this.$('button .arrow').css('border-bottom', `6px solid ${color}`);
     });
-  },
+  }),
 
   /**
    * Bind outside click handler for closing color picker menu

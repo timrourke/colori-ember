@@ -5,7 +5,7 @@ const { sort } = computed;
 
 export default Controller.extend({
   activeGradientLayer: computed('gradient.gradientLayers.firstObject',
-                                'gradient.gradientLayers.firstObject.gradientStops.@each.color', {
+                                'gradient.gradientLayers.firstObject.gradientStops.[]', {
     get() {
       return this.get('gradient.gradientLayers.firstObject');
     },

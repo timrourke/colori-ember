@@ -7,7 +7,8 @@ module.exports = function(defaults) {
     // Add options here
     autoprefixer: {
       browsers: ['last 10 ios version'],
-      cascade: false
+      cascade: false,
+      remove: false
     }
   });
 

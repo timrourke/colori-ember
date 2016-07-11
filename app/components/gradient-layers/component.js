@@ -23,7 +23,6 @@ export default Component.extend({
      * for displaying the dragged gradient layer's current gradient styles
      */
     initClone(offset, gradientLayer) {
-      console.log('initing clone', offset);
       this.set('isCloneActive', true);
       this.set('gradientLayerCloneCss', gradientLayer.get('gradientCssString'));
       this.set('cloneTop', offset);

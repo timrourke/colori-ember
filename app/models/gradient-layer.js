@@ -12,7 +12,7 @@ export default Model.extend(ModelTimestamps, {
   gradientType:   attr('string', { defaultValue: 'linear' }),
 
   gradient:       belongsTo('gradient', {async: true}),
-  gradientStops:  hasMany('gradient-stop', {async: true}),
+  gradientStops:  hasMany('gradient-stop'),
 
   /**
    * @property angle
