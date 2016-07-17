@@ -1,11 +1,14 @@
+<button {{action 'toggleSize'}}>Toggle Size</button>
 {{color-picker/locator
-	saturation=sPos
 	lightness=lPos
+	saturation=sPos
+	maxPos=maxHeight
 	onChange=(action 'onChangeLocator')
 }}
 <div class="color-picker__slider color-picker__hues">
 	{{color-picker/handle
 		bottom=hPos
+		parentHeight=maxHeight
 		onMove=(action 'updateH')
 	}}
 	<div class="color-picker__slider-shadow"></div>
@@ -13,6 +16,7 @@
 <div class="color-picker__slider color-picker__saturations">
 	{{color-picker/handle
 		bottom=sPos
+		parentHeight=maxHeight
 		onMove=(action 'updateS')
 	}}
 	<div class="color-picker__slider-shadow"></div>
@@ -20,6 +24,7 @@
 <div class="color-picker__slider color-picker__lightnesses">
 	{{color-picker/handle
 		bottom=lPos
+		parentHeight=maxHeight
 		onMove=(action 'updateL')
 	}}
 	<div class="color-picker__slider-shadow"></div>
@@ -27,6 +32,7 @@
 <div class="color-picker__slider color-picker__alpha">
 	{{color-picker/handle
 		bottom=aPos
+		parentHeight=maxHeight
 		onMove=(action 'updateA')
 	}}
 	<div class="color-picker__slider-shadow"></div>
@@ -35,6 +41,7 @@
 <div class="color-picker__slider color-picker__reds">
 	{{color-picker/handle
 		bottom=rPos
+		parentHeight=maxHeight
 		onMove=(action 'updateR')
 	}}
 	<div class="color-picker__slider-shadow"></div>
@@ -42,6 +49,7 @@
 <div class="color-picker__slider color-picker__greens">
 	{{color-picker/handle
 		bottom=gPos
+		parentHeight=maxHeight
 		onMove=(action 'updateG')
 	}}
 	<div class="color-picker__slider-shadow"></div>
@@ -49,6 +57,7 @@
 <div class="color-picker__slider color-picker__blues">
 	{{color-picker/handle
 		bottom=bPos
+		parentHeight=maxHeight
 		onMove=(action 'updateB')
 	}}
 	<div class="color-picker__slider-shadow"></div>
@@ -56,6 +65,7 @@
 <div class="color-picker__slider color-picker__alpha">
 	{{color-picker/handle
 		bottom=aPos
+		parentHeight=maxHeight
 		onMove=(action 'updateA')
 	}}
 	<div class="color-picker__slider-shadow"></div>
