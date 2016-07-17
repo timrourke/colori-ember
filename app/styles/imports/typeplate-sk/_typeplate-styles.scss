@@ -69,6 +69,7 @@ kbd,
 q,
 samp,
 var {
+  font: inherit;
   @include typl8-hyphens(none);
 }
 
