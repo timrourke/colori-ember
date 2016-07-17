@@ -171,10 +171,11 @@ export default Component.extend({
 
   /**
    * @property hue
+   * @property isSmallSize
    *
    * Bottom position (px) for hue slider
    */
-  hPos: computed('hue', function() {
+  hPos: computed('hue', 'isSmallSize', function() {
     if (this.get('isSmallSize')) {
       return this.get('hue') / 2;
     }
