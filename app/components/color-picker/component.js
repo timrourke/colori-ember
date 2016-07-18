@@ -42,9 +42,9 @@ export default Component.extend({
     },
     set(key, value) {
       let [h, s, l] = rgbToHsl(value, this.get('g'), this.get('b'));
-      this.set('hue', Math.round(h));
-      this.set('saturation', s.toFixed(2));
-      this.set('lightness', l.toFixed(2));
+      this.set('hue', (h).toFixed(2));
+      this.set('saturation', (s).toFixed(2));
+      this.set('lightness', (l).toFixed(2));
       return value;
     }
   }),
@@ -64,9 +64,9 @@ export default Component.extend({
     },
     set(key, value) {
       let [h, s, l] = rgbToHsl(this.get('r'), value, this.get('b'));
-      this.set('hue', Math.round(h));
-      this.set('saturation', s.toFixed(2));
-      this.set('lightness', l.toFixed(2));
+      this.set('hue', (h).toFixed(2));
+      this.set('saturation', (s).toFixed(2));
+      this.set('lightness', (l).toFixed(2));
       return value;
     }
   }),
@@ -86,9 +86,9 @@ export default Component.extend({
     },
     set(key, value) {
       let [h, s, l] = rgbToHsl(this.get('r'), this.get('g'), value);
-      this.set('hue', Math.round(h));
-      this.set('saturation', s.toFixed(2));
-      this.set('lightness', l.toFixed(2));
+      this.set('hue', (h).toFixed(2));
+      this.set('saturation', (s).toFixed(2));
+      this.set('lightness', (l).toFixed(2));
       return value;
     }
   }),
