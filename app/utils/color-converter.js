@@ -1,5 +1,3 @@
-import Ember from 'ember';
-
 /**
  * Converts an RGB color value to HSL. Conversion formula
  * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
@@ -98,5 +96,53 @@ export function hslToRgb(hue, saturation, lightness){
   ];
 }
 
-export default Ember.Service.extend({
-});
+/**
+ * @param Number sbSaturation  HSB saturation value
+ * @param Number sbBrightness  HSB brightness value
+ * @return []Number            HSL's saturation and lightness values
+ *
+ * Converts HSB's saturation and brightness to HSL's saturation and lightness
+ */
+export function hsbToHsl(sbSaturation, sbBrightness) {
+  let lightness = (2 - sbSaturation) * sbBrightness / 2;
+  let saturation = (lightness && lightness < 1) ?
+    sbSaturation * sbBrightness / ((lightness < 0.5) ? lightness * 2 : 2 - lightness * 2) :
+    sbSaturation;
+  return [saturation, lightness];
+}
+
+/**
+ * @param Number slSaturation  HSL saturation value
+ * @param Number slBrightness  HSL brightness value
+ * @return []Number            HSB's saturation and brightness values
+ *
+ * Converts HSL's saturation and lightness to HSB's saturation and brightness
+ */
+export function hslToHsb(slSaturation, slLightness) {
+  let lightnessMod = slSaturation * (slLightness < 0.5 ? slLightness : 1 - slLightness);
+  let brightness = slLightness + lightnessMod;
+  let saturation = slLightness > 0 ? 2 * lightnessMod / brightness : slSaturation;
+  return [saturation, brightness];
+}
+
+/**
+ * @param Number a  Minimum point
+ * @param Number b  Maximum point
+ * @param Number f  Fraction
+ * @return Number
+ *
+ * Calculates linear interpolation between two numbers
+ */
+export function lerp(a, b, f) {
+  return ((a * -f) + (b * f));
+}
+
+/**
+ * @param Number degrees  Degrees
+ * @return Number radians
+ *
+ * Converts degrees to radians
+ */
+export function degsToRads(degrees) {
+  return (degrees * (Math.PI/180));
+}

@@ -1,7 +1,13 @@
 import Ember from 'ember';
-import { hslToRgb, rgbToHsl } from 'color-storm/services/color-converter';
+import { 
+  hslToRgb, 
+  rgbToHsl, 
+  hsbToHsl, 
+  hslToHsb, 
+  lerp 
+} from 'color-storm/utils/color-converter';
 
-const { Component, computed } = Ember;
+const { Component, computed, on } = Ember;
 const { htmlSafe } = Ember.String;
 
 export default Component.extend({
@@ -43,8 +49,8 @@ export default Component.extend({
     set(key, value) {
       let [h, s, l] = rgbToHsl(value, this.get('g'), this.get('b'));
       this.set('hue', (h).toFixed(2));
-      this.set('saturation', (s).toFixed(2));
-      this.set('lightness', (l).toFixed(2));
+      this.set('saturation', parseFloat((s).toFixed(2)));
+      this.set('lightness', parseFloat((l).toFixed(2)));
       return value;
     }
   }),
@@ -65,8 +71,8 @@ export default Component.extend({
     set(key, value) {
       let [h, s, l] = rgbToHsl(this.get('r'), value, this.get('b'));
       this.set('hue', (h).toFixed(2));
-      this.set('saturation', (s).toFixed(2));
-      this.set('lightness', (l).toFixed(2));
+      this.set('saturation', parseFloat((s).toFixed(2)));
+      this.set('lightness', parseFloat((l).toFixed(2)));
       return value;
     }
   }),
@@ -87,8 +93,8 @@ export default Component.extend({
     set(key, value) {
       let [h, s, l] = rgbToHsl(this.get('r'), this.get('g'), value);
       this.set('hue', (h).toFixed(2));
-      this.set('saturation', (s).toFixed(2));
-      this.set('lightness', (l).toFixed(2));
+      this.set('saturation', parseFloat((s).toFixed(2)));
+      this.set('lightness', parseFloat((l).toFixed(2)));
       return value;
     }
   }),
@@ -171,6 +177,72 @@ export default Component.extend({
 
   /**
    * @property hue
+   * @property saturation
+   * @property lightness
+   * @return {}Number
+   *
+   * Returns the HSB values
+   */
+  hsb: computed('hue', 'saturation', 'lightness', function() {
+    let [
+      hsbSaturation,
+      hsbBrightness
+    ] = hslToHsb(this.get('saturation') / 100, this.get('lightness') / 100);
+    return Ember.Object.create({
+      h: this.get('hue'),
+      s: parseFloat((hsbSaturation * 100).toFixed(2)),
+      b: parseFloat((hsbBrightness * 100).toFixed(2))
+    });
+  }),
+
+  /**
+   * @property hsb.s
+   * @sets saturation
+   * @sets lightness
+   * @return Number
+   *
+   * Gets/sets the HSB saturation value
+   */
+  hsbSaturation: computed('hsb.s', {
+    get() {
+      return this.get('hsb.s');
+    },
+    set(key, value) {
+      let [
+        saturation,
+        lightness
+      ] = hsbToHsl(value / 100, this.get('hsb.b') / 100);
+      this.set('saturation', parseFloat((saturation * 100).toFixed(2)));
+      this.set('lightness', parseFloat((lightness * 100).toFixed(2)));
+      return value;
+    }
+  }),
+
+  /**
+   * @property hsb.b
+   * @sets saturation
+   * @sets lightness
+   * @return Number
+   *
+   * Gets/sets the HSB brightness value
+   */
+  hsbBrightness: computed('hsb.b', {
+    get() {
+      return this.get('hsb.b');
+    },
+    set(key, value) {
+      let [
+        saturation,
+        lightness
+      ] = hsbToHsl(this.get('hsb.s') / 100, value / 100);
+      this.set('saturation', parseFloat((saturation * 100).toFixed(2)));
+      this.set('lightness', parseFloat((lightness * 100).toFixed(2)));
+      return value;
+    }
+  }),
+
+  /**
+   * @property hue
    * @property isSmallSize
    *
    * Bottom position (px) for hue slider
@@ -204,6 +276,30 @@ export default Component.extend({
   lPos: computed('lightness', 'maxHeight', function() {
     let maxHeight = this.get('maxHeight');
     return (this.get('lightness') * maxHeight) / 100;
+  }),
+
+  /**
+   * @property hsbSaturation
+   * @property maxHeight
+   * @return Number
+   *
+   * Bottom position (px) for HSB saturation slider
+   */
+  hsbSPos: computed('hsbSaturation', 'maxHeight', function() {
+    let maxHeight = this.get('maxHeight');
+    return (this.get('hsbSaturation') * maxHeight) / 100;
+  }),
+
+  /**
+   * @property hsbBrightness
+   * @property maxHeight
+   * @return Number
+   *
+   * Bottom position (px) for HSB brightness slider
+   */
+  hsbBPos: computed('hsbBrightness', 'maxHeight', function() {
+    let maxHeight = this.get('maxHeight');
+    return (this.get('hsbBrightness') * maxHeight) / 100;
   }),
   
   /**
@@ -341,7 +437,7 @@ export default Component.extend({
    * 
    * CSS style rule for top of HSL lightness slider's background
    */
-  lightnessBefore: computed('hue', 'saturation', function() {
+  hslLightnessBefore: computed('hue', 'saturation', function() {
     let h = this.get('hue');
     let s = this.get('saturation');
     let bg = `hsl(${h},${s}%,100%)`;
@@ -356,7 +452,7 @@ export default Component.extend({
    * 
    * CSS style rule for HSL lightness slider's gradient background
    */
-  lightnessBackground: computed('hue', 'saturation', function() {
+  hslLightnessBackground: computed('hue', 'saturation', function() {
     let h = this.get('hue');
     let s = this.get('saturation');
     let bg = `hsl(${h},${s}%,100%), hsl(${h},${s}%,0%)`;
@@ -371,7 +467,7 @@ export default Component.extend({
    * 
    * CSS style rule for bottom of HSL lightness slider's background
    */
-  lightnessAfter: computed('hue', 'saturation', function() {
+  hslLightnessAfter: computed('hue', 'saturation', function() {
     let h = this.get('hue');
     let s = this.get('saturation');
     let bg = `hsl(${h},${s}%,0%)`;
@@ -386,7 +482,7 @@ export default Component.extend({
    * 
    * CSS style rule for top of HSL saturation slider's background
    */
-  saturationsBefore: computed('hue', 'lightness', function() {
+  hslSaturationBefore: computed('hue', 'lightness', function() {
     let h = this.get('hue');
     let l = this.get('lightness');
     let bg = `hsl(${h},100%,${l}%)`;
@@ -401,7 +497,7 @@ export default Component.extend({
    * 
    * CSS style rule for HSL saturation slider's gradient background
    */
-  saturationsBackground: computed('hue', 'lightness', function() {
+  hslSaturationBackground: computed('hue', 'lightness', function() {
     let h = this.get('hue');
     let l = this.get('lightness');
     let bg = `hsl(${h},100%,${l}%), hsl(${h},0%,${l}%)`;
@@ -416,10 +512,134 @@ export default Component.extend({
    * 
    * CSS style rule for bottom of HSL saturation slider's background
    */
-  saturationsAfter: computed('hue', 'lightness', function() {
+  hslSaturationAfter: computed('hue', 'lightness', function() {
     let h = this.get('hue');
     let l = this.get('lightness');
     let bg = `hsl(${h},0%,${l}%)`;
+    let style = htmlSafe(`background-color: ${bg};`);
+    return style;
+  }),
+
+  /**
+   * @property hue
+   * @property hsbBrightness
+   * @return String
+   * 
+   * CSS style rule for top of HSB saturation slider's background
+   */
+  hsbSaturationBefore: computed('hue', 'hsbBrightness', function() {
+    let h = this.get('hue');
+    let b = this.get('hsbBrightness');
+    let [
+      sTop,
+      lTop
+    ] = hsbToHsl(1, b);
+    let bg = `hsl(${h},${sTop*100}%,${lTop}%)`;
+    let style = htmlSafe(`background-color: ${bg};`);
+    return style;
+  }),
+
+  /**
+   * @property hue
+   * @property hsbBrightness
+   * @return String
+   * 
+   * CSS style rule for HSB saturation slider's gradient background
+   */
+  hsbSaturationBackground: computed('hue', 'hsbBrightness', function() {
+    let h = this.get('hue');
+    let b = this.get('hsbBrightness');
+    let [
+      sTop,
+      lTop
+    ] = hsbToHsl(1, b);
+    let [
+      sBottom,
+      lBottom
+    ] = hsbToHsl(0, b);
+    let bg = `hsl(${h},${sTop*100}%,${lTop}%),
+      hsl(${h},${sBottom*100}%,${lBottom}%)`;
+    let style = htmlSafe(`background: linear-gradient(to bottom, ${bg});`);
+    return style;
+  }),
+
+  /**
+   * @property hue
+   * @property hsbBrightness
+   * @return String
+   * 
+   * CSS style rule for bottom of HSB saturation slider's background
+   */
+  hsbSaturationAfter: computed('hue', 'hsbBrightness', function() {
+    let h = this.get('hue');
+    let b = this.get('hsbBrightness');
+    let [
+      sBottom,
+      lBottom
+    ] = hsbToHsl(0, b);
+    let bg = `hsl(${h},${sBottom*100}%,${lBottom}%)`;
+    let style = htmlSafe(`background-color: ${bg};`);
+    return style;
+  }),
+
+  /**
+   * @property hue
+   * @property hsbSaturation
+   * @return String
+   * 
+   * CSS style rule for top of HSB brightness slider's background
+   */
+  hsbBrightnessBefore: computed('hue', 'hsbSaturation', function() {
+    let h = this.get('hue');
+    let s = this.get('hsbSaturation');
+    let [
+      sBottom,
+      lBottom
+    ] = hsbToHsl(s/100, 100);
+    let bg = `hsl(${h},${sBottom*100}%,${lBottom}%)`;
+    let style = htmlSafe(`background-color: ${bg};`);
+    return style;
+  }),
+
+  /**
+   * @property hue
+   * @property hsbSaturation
+   * @return String
+   * 
+   * CSS style rule for HSB brightness slider's gradient background
+   */
+  hsbBrightnessBackground: computed('hue', 'hsbSaturation', function() {
+    let h = this.get('hue');
+    let s = this.get('hsbSaturation');
+    let [
+      sTop,
+      lTop
+    ] = hsbToHsl(s/100, 100);
+    let [
+      sBottom,
+      lBottom
+    ] = hsbToHsl(s/100, 0);
+    let bg = `hsl(${h},${sTop*100}%,${lTop}%),
+      hsl(${h},${sBottom*100}%,${lBottom}%)`;
+    let style = htmlSafe(`background: linear-gradient(to bottom, ${bg});`);
+    return style;
+  }),
+
+  /**
+   * @property hue
+   * @property hsbSaturation
+   * @return String
+   * 
+   * CSS style rule for bottom of HSB brightness slider's background
+   */
+  hsbBrightnessAfter: computed('hue', 'hsbSaturation', function() {
+    let h = this.get('hue');
+    let s = this.get('hsbSaturation');
+    let [
+      sBottom,
+      lBottom
+    ] = hsbToHsl(s/100, 0);
+    let bg = `hsl(${h},${sBottom*100}%,${lBottom*100}%)`;
     let style = htmlSafe(`background-color: ${bg};`);
     return style;
   }),
@@ -447,7 +667,8 @@ export default Component.extend({
    */
   redsBackground: computed('rgb.g', 'rgb.b', function() {
     let rgb = this.get('rgb');
-    let bg = `rgb(255,${rgb.get('g')},${rgb.get('b')}), rgb(0,${rgb.get('g')},${rgb.get('b')})`;
+    let bg = `rgb(255,${rgb.get('g')},${rgb.get('b')}),
+      rgb(0,${rgb.get('g')},${rgb.get('b')})`;
     let style = htmlSafe(`background: linear-gradient(to bottom, ${bg});`);
     return style;
   }),
@@ -489,7 +710,8 @@ export default Component.extend({
    */
   greensBackground: computed('rgb.r', 'rgb.b', function() {
     let rgb = this.get('rgb');
-    let bg = `rgb(${rgb.get('r')},255,${rgb.get('b')}), rgb(${rgb.get('r')},0,${rgb.get('b')})`;
+    let bg = `rgb(${rgb.get('r')},255,${rgb.get('b')}),
+      rgb(${rgb.get('r')},0,${rgb.get('b')})`;
     let style = htmlSafe(`background: linear-gradient(to bottom, ${bg});`);
     return style;
   }),
@@ -531,7 +753,8 @@ export default Component.extend({
    */
   bluesBackground: computed('rgb.r', 'rgb.g', function() {
     let rgb = this.get('rgb');
-    let bg = `rgb(${rgb.get('r')},${rgb.get('g')},255), rgb(${rgb.get('r')},${rgb.get('g')},0)`;
+    let bg = `rgb(${rgb.get('r')},${rgb.get('g')},255),
+      rgb(${rgb.get('r')},${rgb.get('g')},0)`;
     let style = htmlSafe(`background: linear-gradient(to bottom, ${bg});`);
     return style;
   }),
@@ -575,9 +798,45 @@ export default Component.extend({
    */
   alphaBackground: computed('rgb.r', 'rgb.g', 'rgb.b', function() {
     let rgb = this.get('rgb');
-    let bg = `rgba(${rgb.get('r')},${rgb.get('g')},${rgb.get('b')},1), rgba(${rgb.get('r')},${rgb.get('g')},${rgb.get('b')},0)`;
+    let bg = `rgba(${rgb.get('r')},${rgb.get('g')},${rgb.get('b')},1),
+      rgba(${rgb.get('r')},${rgb.get('g')},${rgb.get('b')},0)`;
     let style = htmlSafe(`background: linear-gradient(to bottom, ${bg});`);
     return style;
+  }),
+
+  /**
+   * @property saturation
+   * @property lightness
+   *
+   * Calculate opacity of wheel overlay
+   */
+  wheelAfter: computed('saturation', 'lightness', function() {
+    let lightness = this.get('lightness');
+    let s = this.get('saturation') / 100;
+    let l = lightness / 100;
+    let [
+        sat,
+        bri
+    ] = hslToHsb(s, l);
+
+    // The 0.95 multiplier here is a bit of a magic number. There is likely a
+    // more accurate way to model the overlay for the conical gradient; for now,
+    // this provides a reasonable simulation for user controls that maps well to
+    // the HSB mental model.
+    let opac = 1 - lerp(0, Math.max(bri, sat), Math.min(bri, sat)) * 0.95;
+    let style = htmlSafe(`background-color: hsla(0,0%,${lightness}%,${opac});`);
+    return style;
+  }),
+
+  /**
+   * @event init
+   *
+   * Initializes computed properties by unsetting and resetting hue value
+   */
+  initializeRgba: on('init', function() {
+    let h = this.get('hue');
+    this.set('hue', 0);
+    this.set('hue', h);
   }),
 
   actions: {
@@ -586,12 +845,18 @@ export default Component.extend({
      *
      * Updates saturation and lightness using top/left pixel coordinates
      */
-    onChangeLocator(position) { console.log(position);
+    onChangeLocator(position) {
       let maxHeight = this.get('maxHeight');
-      let newSaturation = (position.left / maxHeight) * 100;
-      let newLightness = ((maxHeight - position.top) / maxHeight) * 100;
-      this.set('saturation', newSaturation.toFixed(2));
-      this.set('lightness', newLightness.toFixed(2));
+      let satPos = (position.left / maxHeight);
+      let briPos = ((maxHeight - position.top) / maxHeight);
+      
+      let [
+        saturation,
+        lightness
+      ] = hsbToHsl(satPos, briPos);
+      
+      this.set('saturation', parseFloat((saturation * 100).toFixed(2)));
+      this.set('lightness', parseFloat((lightness * 100).toFixed(2)));
     },
 
     /**
@@ -621,7 +886,7 @@ export default Component.extend({
     updateS(S) {
       let maxHeight = this.get('maxHeight');
       let newSaturation = (S / maxHeight) * 100;
-      this.set('saturation', newSaturation.toFixed(2));
+      this.set('saturation', parseFloat(newSaturation.toFixed(2)));
     },
 
     /**
@@ -632,7 +897,29 @@ export default Component.extend({
     updateL(L) {
       let maxHeight = this.get('maxHeight');
       let newLightness = (L / maxHeight) * 100;
-      this.set('lightness', newLightness.toFixed(2));
+      this.set('lightness', parseFloat(newLightness.toFixed(2)));
+    },
+
+    /**
+     * @param Number S  Number to set HSB saturation to
+     *
+     * Update HSB saturation value
+     */
+    updateHsbS(S) {
+      let maxHeight = this.get('maxHeight');
+      let newHsbSat = (S / maxHeight) * 100;
+      this.set('hsbSaturation', parseFloat(newHsbSat.toFixed(2)));
+    },
+
+    /**
+     * @param Number B  Number to set HSB brightness to
+     *
+     * Update HSB brightness value
+     */
+    updateHsbB(B) {
+      let maxHeight = this.get('maxHeight');
+      let newHsbBri = (B / maxHeight) * 100;
+      this.set('hsbBrightness', parseFloat(newHsbBri.toFixed(2)));
     },
 
     /**

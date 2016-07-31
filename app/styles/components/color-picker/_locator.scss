@@ -1,0 +1,45 @@
+.color-picker .color-picker__locator {
+	position: relative;
+	margin: 0.5em;
+	outline: 1px solid black;
+	float: left;
+	background: linear-gradient(
+		to bottom, 
+		hsla(0, 0%, 0%, 0) 0%, 
+		hsla(0, 0%, 0%, 0.5) 50%, 
+		hsl(0, 0%, 0%) 100%), 
+	linear-gradient(
+		to right,
+		hsla(0, 0%, 100%, 1) 0%, 
+		hsla(0, 0%, 100%, 0.5) 50%,
+		hsla(0, 0%, 100%, 0) 100%);
+}
+
+// Sizes for 2x (default) size
+.color-picker--2x .color-picker__locator {
+	width: 360px;
+	height: 360px;
+}
+
+// Sizes for 1x (small) size
+.color-picker--1x .color-picker__locator {
+	width: 180px;
+	height: 180px;
+}
+
+.color-picker .color-picker__locator-ring {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	border-radius: 100%;
+	border: 5px solid #666;
+	transform: translateX(-50%) translateY(-50%);
+	&:hover {
+		cursor: -webkit-grab;
+		cursor: grab;
+	}
+	&:active {
+		cursor: -webkit-grabbing;
+		cursor: grabbing;
+	}
+}

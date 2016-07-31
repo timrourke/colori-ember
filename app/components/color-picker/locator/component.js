@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import DraggableElement from 'color-storm/mixins/draggable-element';
+import { hslToHsb } from 'color-storm/utils/color-converter';
 
 const { Component, on, run } = Ember;
 const { scheduleOnce } = run;
@@ -65,10 +66,20 @@ export default Component.extend(DraggableElement, {
    */
   updatePosition: on('didUpdateAttrs', function() {
     let maxPos = this.get('maxPos');
+    
+    let hslSat = (this.get('saturation') / maxPos);
+    let hslBri = (this.get('lightness') / maxPos);
+
+    let [
+      saturation,
+      brightness 
+    ] = hslToHsb(hslSat, hslBri);
+    
     let newPos = {
-      top: -(this.get('lightness') - maxPos),
-      left: this.get('saturation')
+      top: -((brightness * maxPos) - maxPos),
+      left: (saturation * maxPos)
     };
+    
     this.$('.color-picker__locator-ring').css(newPos);
   }),
 

@@ -5,6 +5,8 @@
 	maxPos=maxHeight
 	onChange=(action 'onChangeLocator')
 }}
+
+{{!-- HSL sliders --}}
 <div class="color-picker__slider color-picker__hues">
 	{{color-picker/handle
 		bottom=hPos
@@ -13,7 +15,7 @@
 	}}
 	<div class="color-picker__slider-shadow"></div>
 </div>
-<div class="color-picker__slider color-picker__saturations">
+<div class="color-picker__slider color-picker__HSL-saturation">
 	{{color-picker/handle
 		bottom=sPos
 		parentHeight=maxHeight
@@ -21,7 +23,7 @@
 	}}
 	<div class="color-picker__slider-shadow"></div>
 </div>
-<div class="color-picker__slider color-picker__lightnesses">
+<div class="color-picker__slider color-picker__HSL-lightness">
 	{{color-picker/handle
 		bottom=lPos
 		parentHeight=maxHeight
@@ -38,6 +40,41 @@
 	<div class="color-picker__slider-shadow"></div>
 </div>
 
+{{!-- HSB sliders --}}
+<div class="color-picker__slider color-picker__hues">
+	{{color-picker/handle
+		bottom=hPos
+		parentHeight=maxHeight
+		onMove=(action 'updateH')
+	}}
+	<div class="color-picker__slider-shadow"></div>
+</div>
+<div class="color-picker__slider color-picker__HSB-saturation">
+	{{color-picker/handle
+		bottom=hsbSPos
+		parentHeight=maxHeight
+		onMove=(action 'updateHsbS')
+	}}
+	<div class="color-picker__slider-shadow"></div>
+</div>
+<div class="color-picker__slider color-picker__HSB-brightness">
+	{{color-picker/handle
+		bottom=hsbBPos
+		parentHeight=maxHeight
+		onMove=(action 'updateHsbB')
+	}}
+	<div class="color-picker__slider-shadow"></div>
+</div>
+<div class="color-picker__slider color-picker__alpha">
+	{{color-picker/handle
+		bottom=aPos
+		parentHeight=maxHeight
+		onMove=(action 'updateA')
+	}}
+	<div class="color-picker__slider-shadow"></div>
+</div>
+
+{{!-- RGB sliders --}}
 <div class="color-picker__slider color-picker__reds">
 	{{color-picker/handle
 		bottom=rPos
@@ -73,6 +110,7 @@
 
 <div class="color-picker__preview"></div>
 <div class="color-picker__inputs">
+	{{!-- RGB text inputs --}}
 	<label for="color-picker__input-R">
 		{{input 
 			id="color-picker__input-R"
@@ -115,6 +153,7 @@
 		<span class="color-picker__input-label">A</span>
 	</label>
 
+	{{!-- HSL inputs --}}
 	<label for="color-picker__input-H">
 		{{input 
 			id="color-picker__input-H"
@@ -156,6 +195,51 @@
 		}}
 		<span class="color-picker__input-label">A</span>
 	</label>
+
+	{{!-- HSB inputs --}}
+	<label for="color-picker__input-H2">
+		{{input 
+			id="color-picker__input-H2"
+			min=0 
+			max=360 
+			type="number" 
+			value=hue
+		}}
+		<span class="color-picker__input-label">H</span>
+	</label>
+	<label for="color-picker__input-HSB-S">
+		{{input 
+			id="color-picker__input-HSB-S"
+			min=0 
+			max=100 
+			type="number" 
+			value=hsbSaturation
+		}}
+		<span class="color-picker__input-label">S</span>
+	</label>
+	<label for="color-picker__input-HSB-B">
+		{{input 
+			id="color-picker__input-HSB-B"
+			min=0 
+			max=100 
+			type="number" 
+			value=hsbBrightness
+		}}
+		<span class="color-picker__input-label">B</span>
+	</label>
+	<label for="color-picker__input-A3">
+		{{input 
+			id="color-picker__input-A3"
+			min=0 
+			max=1 
+			step=0.01 
+			type="number" 
+			value=alpha
+		}}
+		<span class="color-picker__input-label">A</span>
+	</label>
+
+	{{!-- HEX input --}}
 	<label for="color-picker__input-HEX">
 		{{input
 			id="color-picker__input-HEX"
@@ -173,23 +257,41 @@
 	{{concat '#' elementId}} .color-picker__slider .color-picker__handle {
 		{{hslBackground}}
 	}
-	{{concat '#' elementId}} .color-picker__saturations {
-		{{saturationsBackground}}	
+	{{concat '#' elementId}} .color-picker__HSL-saturation {
+		{{hslSaturationBackground}}	
 	}
-	{{concat '#' elementId}} .color-picker__saturations:before {
-		{{saturationsBefore}}
+	{{concat '#' elementId}} .color-picker__HSL-saturation:before {
+		{{hslSaturationBefore}}
 	}
-	{{concat '#' elementId}} .color-picker__saturations:after {
-		{{saturationsAfter}}
+	{{concat '#' elementId}} .color-picker__HSL-saturation:after {
+		{{hslSaturationAfter}}
 	}
-	{{concat '#' elementId}} .color-picker__lightnesses {
-		{{lightnessBackground}}	
+	{{concat '#' elementId}} .color-picker__HSL-lightness {
+		{{hslLightnessBackground}}	
 	}
-	{{concat '#' elementId}} .color-picker__lightnesses:before {
-		{{lightnessBefore}}
+	{{concat '#' elementId}} .color-picker__HSL-lightness:before {
+		{{hslLightnessBefore}}
 	}
-	{{concat '#' elementId}} .color-picker__lightnesses:after {
-		{{lightnessAfter}}
+	{{concat '#' elementId}} .color-picker__HSL-lightness:after {
+		{{hslLightnessAfter}}
+	}
+	{{concat '#' elementId}} .color-picker__HSB-saturation {
+		{{hsbSaturationBackground}}
+	}
+	{{concat '#' elementId}} .color-picker__HSB-saturation:before {
+		{{hsbSaturationBefore}}
+	}
+	{{concat '#' elementId}} .color-picker__HSB-saturation:after {
+		{{hsbSaturationAfter}}
+	}
+	{{concat '#' elementId}} .color-picker__HSB-brightness {
+		{{hsbBrightnessBackground}}
+	}
+	{{concat '#' elementId}} .color-picker__HSB-brightness:before {
+		{{hsbBrightnessBefore}}
+	}
+	{{concat '#' elementId}} .color-picker__HSB-brightness:after {
+		{{hsbBrightnessAfter}}
 	}
 	{{concat '#' elementId}} .color-picker__reds {
 		{{redsBackground}}	
@@ -227,4 +329,12 @@
 	{{concat '#' elementId}} .color-picker__locator {
 		{{locatorBackground}}
 	}
+	{{concat '#' elementId}} .color-picker__wheel:after {
+		{{wheelAfter}}
+	}
 </style>
+
+{{color-picker/wheel
+	hue=hue
+	saturation=saturation
+}}

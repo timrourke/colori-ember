@@ -1,0 +1,27 @@
+.color-picker .color-picker__wheel {
+	position: relative;
+	float: left;
+	width: 720px;
+	height: 720px;
+	background-image: url('../images/color-picker/wheel/color-wheel.png');
+	background-size: 100% 100%;
+	border-radius: 100%;
+	overflow: hidden;
+	z-index: 1;
+	&:after {
+		position: absolute;
+		content: '';
+		display: block;
+		width: 100%;
+		height: 100%;
+		z-index: 2;
+	}
+}
+
+.color-picker .color-picker__wheel .color-picker__locator-ring {
+	width: 30px;
+	height: 30px;
+	border-color: white;
+	box-shadow: 0 0 5px rgba(0,0,0,0.25), inset 0 0 2px rgba(0,0,0,0.5);
+	z-index: 5;
+}

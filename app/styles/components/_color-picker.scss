@@ -52,7 +52,7 @@
 	}
 }
 
-// Sizes for 1x (default) size
+// Sizes for 1x (small) size
 .color-picker--1x .color-picker__slider {
 	width: 15px;
 	height: 180px;
@@ -92,19 +92,40 @@
 	background-color: #eee;
 	background-image: linear-gradient(45deg, #BFBFBF 25%, transparent 25%, transparent 75%, #BFBFBF 75%, #BFBFBF), 
 	linear-gradient(45deg, #BFBFBF 25%, transparent 25%, transparent 75%, #BFBFBF 75%, #BFBFBF);
-	background-size:20px 20px;
-	background-position:0 0, 10px 10px;
 	z-index: -1;
+}
+
+// Sizes for 2x (default) size
+.color-picker--2x %checkered-pattern-pseudo-content {
+	background-size: 20px 20px;
+	background-position: 0 0, 10px 10px;
+}
+
+// Sizes for 1x (small) size
+.color-picker--1x %checkered-pattern-pseudo-content {
+	background-size: 10px 10px;
+	background-position: 0 0, 5px 5px;
 }
 
 .color-picker__preview {
 	position: relative;
-	width: 200px;
-	height: 200px;
 	float: left;
+	margin: 0.5em;
 	&:after {
 		@extend %checkered-pattern-pseudo-content;
 	}
+}
+
+// Sizes for 2x (default) size
+.color-picker--2x .color-picker__preview {
+	width: 360px;
+	height: 360px;
+}
+
+// Sizes for 1x (small) size
+.color-picker--1x .color-picker__preview {
+	width: 180px;
+	height: 180px;
 }
 
 .color-picker__alpha:after {
@@ -118,7 +139,7 @@
 	border-radius: 15px;
 }
 
-// Sizes for 1x (default) size
+// Sizes for 1x (small) size
 .color-picker--1x .color-picker__alpha:after {
 	height: 195px;
 	border-radius: 7.5px;
@@ -150,8 +171,9 @@
 }
 
 .color-picker .color-picker__input-label {
+	color: #aaa;
 	padding-left: 0.25em;
-	transition: all 0.2s ease-in;
+	transition: all 0.2s linear;
 }
 
 .color-picker__inputs input {
@@ -168,59 +190,17 @@
 	text-align: right;
 	line-height: 2em;
 	z-index: -1;
-	transition: all 0.2s ease-in;
+	transition: all 0.2s linear;
 }
 
 .color-picker__inputs input:focus {
 	background-color: white;
 	font-size: 0.9em;
 }
+
 .color-picker__inputs input:focus + span.color-picker__input-label {
-	opacity: 0.125;
-}
-
-.color-picker .color-picker__locator {
-	position: relative;
-	margin: 0.5em;
-	outline: 1px solid black;
-	float: left;
-	background: linear-gradient(
-		top, 
-		hsl(0, 0%, 100%) 0%, 
-		hsla(0, 0%, 100%, 0) 50%, 
-		hsla(0, 0%, 0%, 0) 50%, 
-		hsl(0, 0%, 0%) 100%), 
-	linear-gradient(
-		left, 
-		hsl(0, 0%, 50%) 0%, 
-		hsla(0, 0%, 50%, 0) 100%);
-}
-
-// Sizes for 2x (default) size
-.color-picker--2x .color-picker__locator {
-	width: 360px;
-	height: 360px;
-}
-
-// Sizes for 1x (default) size
-.color-picker--1x .color-picker__locator {
-	width: 180px;
-	height: 180px;
-}
-
-.color-picker .color-picker__locator-ring {
-	position: absolute;
-	width: 20px;
-	height: 20px;
-	border-radius: 100%;
-	border: 5px solid #666;
-	transform: translateX(-50%) translateY(-50%);
-	&:hover {
-		cursor: -webkit-grab;
-		cursor: grab;
-	}
-	&:active {
-		cursor: -webkit-grabbing;
-		cursor: grabbing;
-	}
+	color: blue;
+	transform-origin: 0 -9%;
+	display: block;
+	transform: scale(0.7, 0.7);
 }
