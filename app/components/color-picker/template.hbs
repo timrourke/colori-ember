@@ -109,7 +109,7 @@
 </div>
 
 <div class="color-picker__preview"></div>
-<div class="color-picker__inputs">
+<form class="color-picker__inputs" novalidate="novalidate">
 	{{!-- RGB text inputs --}}
 	<label for="color-picker__input-R">
 		{{input 
@@ -158,7 +158,7 @@
 		{{input 
 			id="color-picker__input-H"
 			min=0 
-			max=360 
+			max=360
 			type="number" 
 			value=hue
 		}}
@@ -248,7 +248,7 @@
 		}}
 		<span class="color-picker__input-label">HEX</span>
 	</label>
-</div>
+</form>
 
 <style type="text/css">
 	{{concat '#' elementId}} .color-picker__preview {

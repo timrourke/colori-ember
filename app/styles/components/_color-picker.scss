@@ -6,7 +6,7 @@
 .color-picker__slider {
 	position: relative;
 	float: left;
-	margin: 0.5em 1em 0.5em 0.5em;
+	margin: 0.5em;
 	&:before,
 	&:after {
 		content: '';
@@ -33,6 +33,7 @@
 
 // Sizes for 2x (default) size
 .color-picker--2x .color-picker__slider {
+	margin-right: 15px;
 	width: 30px;
 	height: 360px;
 	&:before,
@@ -54,6 +55,7 @@
 
 // Sizes for 1x (small) size
 .color-picker--1x .color-picker__slider {
+	margin-right: 7px;
 	width: 15px;
 	height: 180px;
 	&:before,
@@ -173,6 +175,8 @@
 .color-picker .color-picker__input-label {
 	color: #aaa;
 	padding-left: 0.25em;
+	font-size: 0.8em;
+	pointer-events: none;
 	transition: all 0.2s linear;
 }
 
@@ -200,7 +204,7 @@
 
 .color-picker__inputs input:focus + span.color-picker__input-label {
 	color: blue;
-	transform-origin: 0 -9%;
+	transform-origin: 0 0;
 	display: block;
-	transform: scale(0.7, 0.7);
+	transform: translateX(-2.5%) translateY(-25%);
 }

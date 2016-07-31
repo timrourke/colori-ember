@@ -783,8 +783,12 @@ export default Component.extend({
    */
   alphaBefore: computed('rgb.r', 'rgb.g', 'rgb.b', function() {
     let rgb = this.get('rgb');
-    let bg = `rgba(${rgb.get('r')},${rgb.get('g')},${rgb.get('b')},1)`;
-    let style = htmlSafe(`background: ${bg};`);
+    let bg = `
+      rgba(${rgb.get('r')},${rgb.get('g')},${rgb.get('b')},1),
+      rgba(${rgb.get('r')},${rgb.get('g')},${rgb.get('b')},1) 50%,
+      rgba(${rgb.get('r')},${rgb.get('g')},${rgb.get('b')},0) 51%
+    `;
+    let style = htmlSafe(`background: linear-gradient(to bottom, ${bg});`);
     return style;
   }),
 
