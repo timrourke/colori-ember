@@ -31,7 +31,7 @@ export default Component.extend(DraggableElement, {
    */
   setPosition: on('didUpdateAttrs', function() {
     let bottom = this.get('bottom');
-    this.$().attr('style', `bottom: ${bottom}px;`);
+    this.$().attr('style', `bottom: ${Math.round(bottom)}px;`);
   }),
 
   /**

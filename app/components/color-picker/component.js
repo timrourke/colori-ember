@@ -18,7 +18,22 @@ export default Component.extend({
   hue: 0,
   lightness: 0,
   saturation: 0,
+
   isSmallSize: true,
+  showAlpha: true,
+  showBasicInterface: true,
+  showInputs: false,
+  showInputsHex: true,
+  showInputsHsb: true,
+  showInputsHsl: true,
+  showInputsRgb: true,
+  showLocator: true,
+  showPreview: true,
+  showSliders: false,
+  showSlidersRgb: true,
+  showSlidersHsl: true,
+  showSlidersHsb: false,
+  showWheel: false,
 
   /**
    * @property isSmallSize
@@ -34,6 +49,19 @@ export default Component.extend({
   }),
 
   /**
+   * @property isSmallSize
+   * @return Number
+   *
+   * The maximum height for the locator
+   */
+  maxLocatorHeight: computed('isSmallSize', function() {
+    if (this.get('isSmallSize')) {
+      return 195;
+    }
+    return 390;
+  }),
+
+  /**
    * @property rgb.r
    * @sets hue
    * @sets saturation
@@ -44,13 +72,16 @@ export default Component.extend({
    */
   r: computed('rgb.r', {
     get() {
-      return this.get('rgb.r');
+      return Math.round(this.get('rgb.r'));
     },
     set(key, value) {
-      let [h, s, l] = rgbToHsl(value, this.get('g'), this.get('b'));
-      this.set('hue', (h).toFixed(2));
-      this.set('saturation', parseFloat((s).toFixed(2)));
-      this.set('lightness', parseFloat((l).toFixed(2)));
+      let [h, s, l] = rgbToHsl(
+        value, 
+        this.get('g'), 
+        this.get('b'));
+      this.set('hue', h);
+      this.set('saturation', s);
+      this.set('lightness', l);
       return value;
     }
   }),
@@ -66,13 +97,16 @@ export default Component.extend({
    */
   g: computed('rgb.g', {
     get() {
-      return this.get('rgb.g');
+      return Math.round(this.get('rgb.g'));
     },
     set(key, value) {
-      let [h, s, l] = rgbToHsl(this.get('r'), value, this.get('b'));
-      this.set('hue', (h).toFixed(2));
-      this.set('saturation', parseFloat((s).toFixed(2)));
-      this.set('lightness', parseFloat((l).toFixed(2)));
+      let [h, s, l] = rgbToHsl(
+        this.get('r'), 
+				value, 
+        this.get('b'));
+      this.set('hue', h);
+      this.set('saturation', s);
+      this.set('lightness', l);
       return value;
     }
   }),
@@ -88,13 +122,16 @@ export default Component.extend({
    */
   b: computed('rgb.b', {
     get() {
-      return this.get('rgb.b');
+      return Math.round(this.get('rgb.b'));
     },
     set(key, value) {
-      let [h, s, l] = rgbToHsl(this.get('r'), this.get('g'), value);
-      this.set('hue', (h).toFixed(2));
-      this.set('saturation', parseFloat((s).toFixed(2)));
-      this.set('lightness', parseFloat((l).toFixed(2)));
+      let [h, s, l] = rgbToHsl(
+        this.get('r'), 
+        this.get('g'), 
+        value);
+      this.set('hue', h);
+      this.set('saturation', s);
+      this.set('lightness', l);
       return value;
     }
   }),
@@ -111,6 +148,7 @@ export default Component.extend({
     let h = this.get('hue');
     let s = this.get('saturation');
     let l = this.get('lightness');
+    console.log('computing rgb', [h, s, l]);
     let [r,g,b] = hslToRgb(h,s,l);
     return Ember.Object.create({
       r: r,
@@ -136,8 +174,8 @@ export default Component.extend({
       let hexString = '#';
       [r,g,b].map(val => {
         hexString += (val < 16) ?
-          `0${val.toString(16)}` :
-          val.toString(16);
+          `0${Math.round(val).toString(16)}` :
+          Math.round(val).toString(16);
       });
       return hexString;
     },
@@ -165,7 +203,7 @@ export default Component.extend({
         
         // Update R, G, and B
         rgb.forEach((val, index) => {
-          this.set(keys[index], val);
+          this.set(keys[index], Math.round(val));
         });
       }
       
@@ -212,8 +250,8 @@ export default Component.extend({
         saturation,
         lightness
       ] = hsbToHsl(value / 100, this.get('hsb.b') / 100);
-      this.set('saturation', parseFloat((saturation * 100).toFixed(2)));
-      this.set('lightness', parseFloat((lightness * 100).toFixed(2)));
+      this.set('saturation', saturation * 100);
+      this.set('lightness', lightness * 100);
       return value;
     }
   }),
@@ -235,8 +273,8 @@ export default Component.extend({
         saturation,
         lightness
       ] = hsbToHsl(this.get('hsb.s') / 100, value / 100);
-      this.set('saturation', parseFloat((saturation * 100).toFixed(2)));
-      this.set('lightness', parseFloat((lightness * 100).toFixed(2)));
+      this.set('saturation', saturation * 100);
+      this.set('lightness', lightness * 100);
       return value;
     }
   }),
@@ -372,7 +410,13 @@ export default Component.extend({
    */
   rgbBackground: computed('rgb.r', 'rgb.g', 'rgb.b', function() {
     let rgb = this.get('rgb');
-    let bg = `rgb(${rgb.get('r')},${rgb.get('g')},${rgb.get('b')})`;
+    let bg = `
+      rgb(
+        ${Math.round(rgb.get('r'))},
+        ${Math.round(rgb.get('g'))},
+        ${Math.round(rgb.get('b'))}
+      )
+    `;
     let style = htmlSafe(`background-color: ${bg};`);
     return style;
   }),
@@ -389,7 +433,13 @@ export default Component.extend({
   rgbaBackground: computed('rgb.r', 'rgb.g', 'rgb.b', 'alpha', function() {
     let rgb = this.get('rgb');
     let a = this.get('alpha');
-    let bg = `rgba(${rgb.get('r')},${rgb.get('g')},${rgb.get('b')},${a})`;
+    let bg = `rgba(
+      ${Math.round(rgb.get('r'))},
+      ${Math.round(rgb.get('g'))},
+      ${Math.round(rgb.get('b'))},
+      ${a}
+      )
+    `;
     let style = htmlSafe(`background-color: ${bg};`);
     return style;
   }),
@@ -653,7 +703,9 @@ export default Component.extend({
    */
   redsBefore: computed('rgb.g', 'rgb.b', function() {
     let rgb = this.get('rgb');
-    let bg = `rgb(255,${rgb.get('g')},${rgb.get('b')})`;
+    let g = Math.round(rgb.get('g'));
+    let b = Math.round(rgb.get('b'));
+    let bg = `rgb(255,${g},${b})`;
     let style = htmlSafe(`background-color: ${bg};`);
     return style;
   }),
@@ -667,8 +719,10 @@ export default Component.extend({
    */
   redsBackground: computed('rgb.g', 'rgb.b', function() {
     let rgb = this.get('rgb');
-    let bg = `rgb(255,${rgb.get('g')},${rgb.get('b')}),
-      rgb(0,${rgb.get('g')},${rgb.get('b')})`;
+    let g = Math.round(rgb.get('g'));
+    let b = Math.round(rgb.get('b'));
+    let bg = `rgb(255,${g},${b}),
+      rgb(0,${g},${b})`;
     let style = htmlSafe(`background: linear-gradient(to bottom, ${bg});`);
     return style;
   }),
@@ -682,7 +736,9 @@ export default Component.extend({
    */
   redsAfter: computed('rgb.g', 'rgb.b', function() {
     let rgb = this.get('rgb');
-    let bg = `rgb(0,${rgb.get('g')},${rgb.get('b')})`;
+    let g = Math.round(rgb.get('g'));
+    let b = Math.round(rgb.get('b'));
+    let bg = `rgb(0,${g},${b})`;
     let style = htmlSafe(`background-color: ${bg};`);
     return style;
   }),
@@ -696,7 +752,9 @@ export default Component.extend({
    */
   greensBefore: computed('rgb.r', 'rgb.b', function() {
     let rgb = this.get('rgb');
-    let bg = `rgb(${rgb.get('r')},255,${rgb.get('b')})`;
+    let r = Math.round(rgb.get('r'));
+    let b = Math.round(rgb.get('b'));
+    let bg = `rgb(${r},255,${b})`;
     let style = htmlSafe(`background-color: ${bg};`);
     return style;
   }),
@@ -710,8 +768,10 @@ export default Component.extend({
    */
   greensBackground: computed('rgb.r', 'rgb.b', function() {
     let rgb = this.get('rgb');
-    let bg = `rgb(${rgb.get('r')},255,${rgb.get('b')}),
-      rgb(${rgb.get('r')},0,${rgb.get('b')})`;
+    let r = Math.round(rgb.get('r'));
+    let b = Math.round(rgb.get('b'));
+    let bg = `rgb(${r},255,${b}),
+      rgb(${r},0,${b})`;
     let style = htmlSafe(`background: linear-gradient(to bottom, ${bg});`);
     return style;
   }),
@@ -725,7 +785,9 @@ export default Component.extend({
    */
   greensAfter: computed('rgb.r', 'rgb.b', function() {
     let rgb = this.get('rgb');
-    let bg = `rgb(${rgb.get('r')},0,${rgb.get('b')})`;
+    let r = Math.round(rgb.get('r'));
+    let b = Math.round(rgb.get('b'));
+    let bg = `rgb(${r},0,${b})`;
     let style = htmlSafe(`background-color: ${bg};`);
     return style;
   }),
@@ -739,7 +801,9 @@ export default Component.extend({
    */
   bluesBefore: computed('rgb.r', 'rgb.g', function() {
     let rgb = this.get('rgb');
-    let bg = `rgb(${rgb.get('r')},${rgb.get('g')},255)`;
+    let r = Math.round(rgb.get('r'));
+    let g = Math.round(rgb.get('g'));
+    let bg = `rgb(${r},${g},255)`;
     let style = htmlSafe(`background-color: ${bg};`);
     return style;
   }),
@@ -753,8 +817,10 @@ export default Component.extend({
    */
   bluesBackground: computed('rgb.r', 'rgb.g', function() {
     let rgb = this.get('rgb');
-    let bg = `rgb(${rgb.get('r')},${rgb.get('g')},255),
-      rgb(${rgb.get('r')},${rgb.get('g')},0)`;
+    let r = Math.round(rgb.get('r'));
+    let g = Math.round(rgb.get('g'));
+    let bg = `rgb(${r},${g},255),
+      rgb(${r},${g},0)`;
     let style = htmlSafe(`background: linear-gradient(to bottom, ${bg});`);
     return style;
   }),
@@ -768,7 +834,9 @@ export default Component.extend({
    */
   bluesAfter: computed('rgb.r', 'rgb.g', function() {
     let rgb = this.get('rgb');
-    let bg = `rgb(${rgb.get('r')},${rgb.get('g')},0)`;
+    let r = Math.round(rgb.get('r'));
+    let g = Math.round(rgb.get('g'));
+    let bg = `rgb(${r},${g},0)`;
     let style = htmlSafe(`background: ${bg};`);
     return style;
   }),
@@ -839,7 +907,7 @@ export default Component.extend({
    */
   initializeRgba: on('init', function() {
     let h = this.get('hue');
-    this.set('hue', 0);
+    this.set('hue', -1);
     this.set('hue', h);
   }),
 
@@ -850,7 +918,7 @@ export default Component.extend({
      * Updates saturation and lightness using top/left pixel coordinates
      */
     onChangeLocator(position) {
-      let maxHeight = this.get('maxHeight');
+      let maxHeight = this.get('maxLocatorHeight');
       let satPos = (position.left / maxHeight);
       let briPos = ((maxHeight - position.top) / maxHeight);
       
@@ -859,8 +927,8 @@ export default Component.extend({
         lightness
       ] = hsbToHsl(satPos, briPos);
       
-      this.set('saturation', parseFloat((saturation * 100).toFixed(2)));
-      this.set('lightness', parseFloat((lightness * 100).toFixed(2)));
+      this.set('saturation', Math.round(saturation * 100));
+      this.set('lightness', Math.round(lightness * 100));
     },
 
     /**
@@ -879,7 +947,7 @@ export default Component.extend({
       let hue = (this.get('isSmallSize')) ?
         H * 2 :
         H;
-      this.set('hue', Math.round(hue));
+      this.set('hue', hue);
     },
 
     /**
@@ -890,7 +958,7 @@ export default Component.extend({
     updateS(S) {
       let maxHeight = this.get('maxHeight');
       let newSaturation = (S / maxHeight) * 100;
-      this.set('saturation', parseFloat(newSaturation.toFixed(2)));
+      this.set('saturation', newSaturation);
     },
 
     /**
@@ -901,7 +969,7 @@ export default Component.extend({
     updateL(L) {
       let maxHeight = this.get('maxHeight');
       let newLightness = (L / maxHeight) * 100;
-      this.set('lightness', parseFloat(newLightness.toFixed(2)));
+      this.set('lightness', newLightness);
     },
 
     /**
@@ -944,7 +1012,7 @@ export default Component.extend({
      */    
     updateR(R) {
       let maxHeight = this.get('maxHeight');
-      this.set('r', Math.round((R / maxHeight) * 255));
+      this.set('r', (R / maxHeight) * 255);
     },
 
     /**
@@ -954,7 +1022,7 @@ export default Component.extend({
      */
     updateG(G) {
       let maxHeight = this.get('maxHeight');
-      this.set('g', Math.round((G / maxHeight) * 255));
+      this.set('g', (G / maxHeight) * 255);
     },
 
     /**
@@ -964,7 +1032,7 @@ export default Component.extend({
      */
     updateB(B) {
       let maxHeight = this.get('maxHeight');
-      this.set('b', Math.round((B / maxHeight) * 255));
+      this.set('b', (B / maxHeight) * 255);
     },
   }
 });

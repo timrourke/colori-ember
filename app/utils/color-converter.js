@@ -90,9 +90,9 @@ export function hslToRgb(hue, saturation, lightness){
   }
 
   return [
-    Math.round(r * 255), 
-    Math.round(g * 255), 
-    Math.round(b * 255)
+    r * 255, 
+    g * 255, 
+    b * 255
   ];
 }
 

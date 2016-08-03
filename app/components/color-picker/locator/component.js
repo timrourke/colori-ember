@@ -7,9 +7,10 @@ const { scheduleOnce } = run;
 
 export default Component.extend(DraggableElement, {
   classNames: ['color-picker__locator'],
+  isSmallSize: false,
   lightness: 0,
   saturation: 0,
-  maxPos: 360,
+  maxPos: 390,
 
   init() {
     this._super(...arguments);
@@ -66,10 +67,9 @@ export default Component.extend(DraggableElement, {
    */
   updatePosition: on('didUpdateAttrs', function() {
     let maxPos = this.get('maxPos');
-    
-    let hslSat = (this.get('saturation') / maxPos);
-    let hslBri = (this.get('lightness') / maxPos);
-
+    let hslSat = (this.get('saturation') * 1.083333333/ maxPos);
+    let hslBri = (this.get('lightness') * 1.083333333/ maxPos);
+   
     let [
       saturation,
       brightness 

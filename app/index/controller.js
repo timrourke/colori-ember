@@ -7,6 +7,11 @@ export default Controller.extend({
   angle: 0,
   gradientStops: [],
 
+  red: 0,
+  green: 0,
+  blue: 0,
+  alpha: 1,
+
   gradientStopsAsc: computed('gradientStops.@each.left', function() {
     return this.get('gradientStops').sortBy('left');
   }),

@@ -1,8 +1,26 @@
 <h1>Welcome to ColorStorm</h1>
 <p>Do some color shit</p>
-{{color-picker
-	r=20
-	g=100
-	b=200
-	alpha=0.35
-}}
+
+{{#pop-over as |popover|}}
+	{{#popover.trigger}}
+		Click me
+	{{/popover.trigger}}
+	{{#popover.content}}
+		{{color-picker
+			r=red
+			g=green
+			b=blue
+			alpha=alpha
+			showBasicInterface=false
+			showInputs=true
+			showPreview=false
+			showSliders=true
+			showWheel=false
+		}}
+	{{/popover.content}}
+{{/pop-over}}
+
+<p>red: {{red}}</p>
+<p>green: {{green}}</p>
+<p>blue: {{blue}}</p>
+<p>alpha: {{alpha}}</p>
