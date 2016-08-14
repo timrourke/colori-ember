@@ -43,6 +43,7 @@ export default Controller.extend({
 
   actions: {
     setActiveGradientLayer(gradientLayer) {
+			console.log(gradientLayer);
       this.set('activeGradientLayer', gradientLayer);
     }
   }

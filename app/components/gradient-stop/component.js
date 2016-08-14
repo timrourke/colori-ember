@@ -31,34 +31,21 @@ export default Component.extend(ClickOutside, DraggableElement, {
     return 'sp-container--right';
   }),
 
+	/**
+	 * Initialize the styles for the gradient-stop
+	 *
+	 * @event init
+	 */
   initStyles: on('init', function() {
     this._super(...arguments);
+		 
+		// Synchronously set styles on init
+		this.setStyles();
 
-    // Initialize the gradient-stop's properties
+    // Initialize the gradient-stop's properties to catch any state changes
+		// after model loads
     this.get('gradientStop').on('ready', () => {
-      let {
-				r, 
-				g, 
-				b, 
-				a,
-				color
-			} = this.get('gradientStop').getProperties('r', 'g', 'b', 'a', 'color');
-      this.setProperties({
-				r: r,
-				g: g,
-				b: b,
-				a: a
-			});
-      scheduleOnce('afterRender', this, () => {
-        this.$().css({ 
-          left: `${this.get('gradientStop.left')}%`,
-          backgroundColor: color
-        });
-        this.$('button').css({
-          border: `2px solid ${color}`
-        });
-        this.$('button .arrow').css('border-bottom', `6px solid ${color}`);
-      });
+			this.setStyles();
     });
   }),
 
@@ -84,6 +71,35 @@ export default Component.extend(ClickOutside, DraggableElement, {
       this.set('isShowingColorPicker', false);
     });
   },
+
+	/**
+	 * Set gradient-stop position and color
+	 */
+	setStyles() {
+		let {
+			r, 
+			g, 
+			b, 
+			a,
+			color
+		} = this.get('gradientStop').getProperties('r', 'g', 'b', 'a', 'color');
+		this.setProperties({
+			r: r,
+			g: g,
+			b: b,
+			a: a
+		});
+		scheduleOnce('afterRender', this, () => {
+			this.$().css({ 
+				left: `${this.get('gradientStop.left')}%`,
+				backgroundColor: color
+			});
+			this.$('button').css({
+				border: `2px solid ${color}`
+			});
+			this.$('button .arrow').css('border-bottom', `6px solid ${color}`);
+		});
+	},
 
   /**
    * Simple collision detection for placement of color picker

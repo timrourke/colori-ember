@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { Route, run } = Ember;
+const { guidFor, Route, run } = Ember;
 const { scheduleOnce } = run;
 
 export default Route.extend({
@@ -25,7 +25,6 @@ export default Route.extend({
     addGradientStop() {
       this.store.createRecord('gradient-stop', {
         left: 50,
-        color: 'rgb(255,255,255)',
         gradientLayer: this.get('controller.activeGradientLayer')
       });
     },
@@ -33,7 +32,7 @@ export default Route.extend({
     addGradientLayer() {
       let order = this.get('controller.gradient.gradientLayers')
         .sortBy('order')
-        .get('lastObject.order');
+        .get('lastObject.order') || 0;
       
       let newGradientLayer = this.store.createRecord('gradient-layer', {
         order: parseInt(order, 10) + 1,
@@ -47,7 +46,7 @@ export default Route.extend({
       if (this.get('_isSwappingOrder')) {
         return;
       }
-      if (gradientLayer.get('id') === cloneGradientLayer.get('id')) {
+      if (guidFor(gradientLayer) === guidFor(cloneGradientLayer)) {
         return;
       }
       this.set('_isSwappingOrder', true);

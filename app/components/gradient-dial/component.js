@@ -160,8 +160,9 @@ export default Component.extend({
     let element = this.$();
     let x = event.clientX;
     let y = event.clientY;
-    let ctrX = element[0].offsetLeft + (element[0].clientWidth / 2);
-    let ctrY = element[0].offsetTop + (element[0].clientHeight / 2);
+		let offset = element.offset();
+    let ctrX = offset.left + (element.width() / 2);
+    let ctrY = offset.top + (element.height() / 2);
     let angle = Math.atan2(-(ctrY - y), -(ctrX - x)) * 180 / Math.PI + 180;
 
     this.set('x', x);
@@ -204,11 +205,14 @@ export default Component.extend({
    * Update the ellipse's `rotateZ` css style
    */
   updateAngle(angle) {        
-    let element = this.$();
+    let element = this.$('.gradient-dial__handle--size');
 
     run(() => {
       element.css({
-        transform: `rotateZ(${angle}deg)`
+        transform: `
+					translateX(-50%)
+					rotateZ(${angle}deg)
+				`
       });
     });
   },

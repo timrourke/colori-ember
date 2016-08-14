@@ -8,10 +8,10 @@ const { computed } = Ember;
 
 export default Model.extend(ModelTimestamps, {
   left:   attr('number'),
-  r:  		attr('number'),
-  g:  		attr('number'),
-  b:  		attr('number'),
-	a: 			attr('number'),
+  r:  		attr('number', {defaultValue: 0}),
+  g:  		attr('number', {defaultValue: 0}),
+  b:  		attr('number', {defaultValue: 0}),
+	a: 			attr('number', {defaultValue: 1}),
 
   gradientLayer: belongsTo('gradient-layer', {async: true}),
 
