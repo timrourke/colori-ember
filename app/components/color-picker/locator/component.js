@@ -27,7 +27,6 @@ export default Component.extend(DraggableElement, {
    * Set the locator ring's position on click
    */
   click(e) {
-		console.log('setting position');
     this.setPosition(e);
   },
 
@@ -92,7 +91,6 @@ export default Component.extend(DraggableElement, {
      * Update the locator ring's position on drag event
      */
     dragDrag(e) {
-			console.log('dragging');
       this.setPosition(e);
     },
   }

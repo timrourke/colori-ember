@@ -69,7 +69,6 @@ export default Component.extend({
      * Set a gradient-layer instance as the active layer in the editor
      */
     setActiveGradientLayer(gradientLayer) {
-			console.log('in comp', gradientLayer);
       this.sendAction('setActiveGradientLayer', gradientLayer);
     },
 
