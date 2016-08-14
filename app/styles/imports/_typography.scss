@@ -1,3 +1,266 @@
+a {
+	color: $base0C;
+	transition: color 0.3s ease-out;
+	&.visited,
+	&:visited {
+		color: darken(desaturate($base0C, 20%), 10%);
+	}
+	&.active,
+	&:active {
+		color: $base0B;
+	}
+	&:hover {
+		color: $base0B;
+	}
+}
+
+::selection {
+	background: transparentize($base0B, 0.75);
+}
+
+input {
+	@include slow-transition(background-color);
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	height: 2em;
+	padding: 0.5em 0.25em;
+	border: none;
+	outline: none;
+	color: $base07;
+}
+
+button, 
+input[type="button"],
+input[type="submit"] {
+	@include fast-transition(transform);
+	display: inline-block;
+	margin: 0.25rem 0.75rem 0.25rem 0;
+	padding: 0 1rem;
+	height: 2rem;
+	min-width: 5em;
+	text-align: center;
+	line-height: 2rem;
+	background-image: linear-gradient(
+		170deg,
+		$base0C,
+		$base0D
+	);
+	border-radius: 3px;
+	box-shadow: 0 3px 3px rgba(0,0,0,0.125);
+	color: white;
+	cursor: pointer;
+	&:active,
+	&.active {
+		transform: scale(0.975);
+	}
+	&:disabled,
+	&.disabled {
+		background-image: none;
+		background-color: $base02;
+		color: $base03;
+		cursor: no-drop;
+	}
+}
+
+input[type="checkbox"] {
+	@include slow-transition(all);
+	display: block;
+	margin: 0.25rem 0;
+	width: 5rem;
+	height: 2rem;
+	background-color: $base0C;
+	border: 1px solid $base0C;
+	border-radius: 1.25rem;
+	box-shadow: inset 0 3px 5px rgba(0,0,0,0.375);
+	&:active,
+	&:focus {
+		background-color: $base0C !important;
+	}
+	&:hover {
+		cursor: pointer;
+	}
+}
+
+input[type="checkbox"]:checked {
+	background-color: $base0B;
+	border: 1px solid $base0B;
+	&:active,
+	&:focus {
+		background-color: $base0B !important;
+	}
+}
+
+input[type="checkbox"] + .checkbox-indicator {
+	@include slow-transition(right);
+	position: absolute;
+	top: 0.3737375rem;
+	right: 3.125rem;
+	width: 1.75rem;
+	height: 1.75rem;
+	background-color: white;
+	border-radius: 100%;
+	pointer-events: none;
+	&:before {
+		content: "OFF";
+		display: block;
+		top: 0.125rem;
+		right: -2.5rem;
+		position: absolute;
+		height: 1.75rem;
+		color: white;
+		line-height: 1.75rem;
+	}
+}
+
+input[type="checkbox"]:checked + .checkbox-indicator {
+	right: 0.125rem;
+	&:before {
+		content: "ON";
+		right: 2.5rem;
+	}
+}
+
+input[type="radio"] {
+	border: 1px solid $base0C;
+	border-radius: 100%;
+	width: 2rem;
+	height: 2rem;
+	margin: 0.25rem 0;
+}
+
+input[type="radio"]:checked {
+	background-image: radial-gradient(
+		circle at 50% 50%,
+		white,
+		$base0C
+	);
+}
+
+input[type="submit"] {
+	background-image: linear-gradient(
+		170deg, 
+		$base0B,
+		$base0C
+	);
+}
+
+label.control {
+	position: relative;
+	display: block;
+	width: 100%;
+}
+
+label.control input {
+	position: relative;
+	display: block;
+	margin-bottom: 0.25rem;
+}
+
+label.control.fancy-checkbox {
+	width: initial;
+}
+
+label.control.fancy-checkbox .label-text {
+	position: static;
+	height: 2.5rem;
+	transform: none;
+	font-size: 100%;
+	float: left;
+	line-height: 2.5rem;
+	margin-right: 0.75rem;
+}
+
+label.control.fancy-checkbox .checkbox-wrap {
+	position: relative;
+	float: left;
+	overflow: hidden;
+}
+
+label.control input[type="text"],
+label.control input[type="email"],
+label.control input[type="url"],
+label.control input[type="tel"],
+label.control input[type="number"],
+label.control input[type="search"],
+label.control input[type="password"] {
+	width: 100%;
+	background-color: transparent;
+	border-bottom: 0.075em solid $base03;
+	margin-top: 0.25rem;
+}
+
+label.control input:focus {
+	background-color: transparentize($base02, 0.825);
+}
+
+label.control input:focus + span.label-text,
+label.control input.has-content + span.label-text {
+	transform: translate3d(0,0,0);
+	color: $base0C;
+}
+
+label.control span.label-text {
+	@include fast-transition(transform);
+	@extend .font-size-small;
+	position: absolute;
+	top: -60%;
+	display: block;
+	pointer-events: none;
+	transform: scale(1.33333) translateX(0.25em) translateY(85%) translateZ(0);
+	transform-origin: 0 0;
+}
+
+label.control input:focus + span + span {
+	opacity: 1;
+}
+
+label.control input.has-content + span + span {
+	opacity: 0;
+}
+
+label.control span.placeholder-text {
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	line-height: 2em;
+	padding-left: 0.25em;
+	pointer-events: none;
+	opacity: 0;
+	color: $base03;
+}
+
+label.control div.input-underline {
+	@include slow-transition(transform);
+	position: absolute;
+	bottom: 0;
+	height: 0.075em;
+	width: 100%;
+	background-image: linear-gradient(
+		to right,
+		$base08,
+		$base09,
+		$base0A,
+		$base0B,
+		$base0C,
+		$base0D,
+		$base0E,
+		$base0F
+	);
+	transform: scaleX(0);
+	transform-origin: 0 0;
+}
+
+label.control.has-focus div.input-underline {
+	transform: scaleX(1);
+}
+
+code {
+	color: $base05;
+	padding: 0.2em;
+	background-color: $base02;
+}
+
 .font-size-small {
 	font-size: 75%;
 }

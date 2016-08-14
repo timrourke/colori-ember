@@ -7,10 +7,13 @@ const { next, scheduleOnce } = run;
 
 export default Component.extend(ClickOutside, DraggableElement, {
   classNames: ['gradient-stop'],
-  color: '',
   gradientStop: null,
   hasRoomToRight: true,
   isShowingColorPicker: false,
+	r: 0,
+	g: 0,
+	b: 0,
+	a: 1,
 
   _elementWidth: 0,
   _halfElementWidth: 0,
@@ -33,8 +36,19 @@ export default Component.extend(ClickOutside, DraggableElement, {
 
     // Initialize the gradient-stop's properties
     this.get('gradientStop').on('ready', () => {
-      let color = this.get('gradientStop.color');
-      this.set('color', color);
+      let {
+				r, 
+				g, 
+				b, 
+				a,
+				color
+			} = this.get('gradientStop').getProperties('r', 'g', 'b', 'a', 'color');
+      this.setProperties({
+				r: r,
+				g: g,
+				b: b,
+				a: a
+			});
       scheduleOnce('afterRender', this, () => {
         this.$().css({ 
           left: `${this.get('gradientStop.left')}%`,
@@ -87,9 +101,15 @@ export default Component.extend(ClickOutside, DraggableElement, {
      *
      * Update the gradient-stop's color value
      */
-    colorChanged: function(color) {
+    colorChanged: function(r, g, b, a) {
       run(() => {
-        this.set('gradientStop.color', color);
+        this.get('gradientStop').setProperties({
+					r: r,
+					g: g,
+					b: b,
+					a: a
+				});
+				let color = this.get('gradientStop.color');
         this.$().css('backgroundColor', color);
         this.$('button').css({
           border: `2px solid ${color}`

@@ -1,0 +1,157 @@
+<section id="style-guide">
+	<div class="column">	
+		<h1>Style Guide</h1>
+		<p>Use this style guide to test and examine components. Maintaining styles 
+		consistently accross the application is critical.</p>
+
+		<h2>This is an h2</h2>
+		<h3>This is an h3</h3>
+		<h4>This is an h4</h4>
+		<h5>This is an h5</h5>
+		<h6>This is an h6</h6>
+			
+		<p>The above are examples of the heading sizes.</p>
+
+		<h4>Paragraphs</h4>
+		<p>This is a paragraph contained within the <code>div.column</code>
+		wrapper. In fact, this entire column is contained within that wrapper.
+		It serves to constrain the text line length to a reasonable, reasable
+		width.</p>
+		<p>This is a second paragraph. Look at the line heights for a sense of 
+		the vertical rhythm produced by the <code>typeplate</code> settings. 
+		Note the indentation of each subsequent paragraph to indicate the new
+		block of text.</p>
+		<p>Here is a somewhat longer paragraph, to get a sense for a lager block
+		of text. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit 
+		aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem 
+		sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor 
+		sit amet, consectetur, adipisci velit, sed quia non numquam eius modi 
+		tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. 
+		Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis 
+		suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?</p>
+
+		<h4>Links</h4>
+		<p>Links are, of course an important part of any website or app.</p>
+		<p><a href="#0">This is a standard link to nowhere.</a></p>
+		<p><a class="visited" href="#1">This is a visited link.</a></p>
+		<p><a class="active" href="#2">This is an active link.</a></p>
+
+		<h4>Form Inputs</h4>
+		<p>Forms and form elements are an important part of any app.</p>
+		<div class="row row--gutters">
+			<div class="cell col-flex-1">
+				{{fancy-input 
+					inputId="input-text-1"
+					inputType="text"
+					labelText="This is a text input"
+					placeholderText="Type something here."
+				}}
+			</div>
+			<div class="cell col-flex-1">
+				{{fancy-input 
+					inputId="input-number-1"
+					inputType="number"
+					labelText="This is a number input"
+					placeholderText="Type something here."
+				}}
+			</div>
+			<div class="cell col-flex-1">
+				{{fancy-input 
+					inputId="input-password-1"
+					inputType="password"
+					labelText="This is a password input"
+					placeholderText="Type your password."
+				}}
+			</div>
+		</div>
+		<div class="row">
+			{{fancy-input
+				inputId="input-phone-1"
+				inputType="tel"
+				labelText="A phone input here"
+				placeholderText="Enter your phone number."
+			}}
+		</div>
+		<div class="row">
+			<button>Normal Button</button>
+			<button disabled="disabled">Disabled</button>
+			<input type="button" value="Button Input">
+			<input type="submit" value="Submit">
+		</div>
+		<div class="row">
+			<label class="control fancy-checkbox" for="checkbox-1">
+				<span class="label-text">Checkbox</span>
+				<div class="checkbox-wrap">
+					<input type="checkbox" value="false" id="checkbox-1">
+					<div class="checkbox-indicator"></div>
+				</div>
+			</label>
+		</div>
+		<div class="row">
+			<label class="control" for="radio-button-1">
+				<span class="label-text">Radio button 1</span>
+				<div class="radio-button-wrap">
+					<input type="radio" value="radio-options">
+				</div>
+			</label>
+			<label class="control" for="radio-button-2">
+				<span class="label-text">Radio button 2</span>
+				<div class="radio-button-wrap">
+					<input type="radio" value="radio-options">
+				</div>
+			</label>
+		</div>
+
+		<h4>Flexbox Grid</h4>
+		<div class="row row--gutters">
+			<div class="cell col-1-4">1/4</div>
+			<div class="cell col-3-4">3/4</div>
+			<div class="cell col-1-2">1-2</div>
+			<div class="cell col-1-2">1-2</div>
+			<div class="cell col-1-3">1-3</div>
+			<div class="cell col-1-3">1-3</div>
+			<div class="cell col-1-3">1-3</div>
+			<div class="cell col-2-3">2-3</div>
+			<div class="cell col-1-3">1-3</div>
+			<div class="cell col-1-12">1-12</div>
+			<div class="cell col-1-12">1-12</div>
+			<div class="cell col-1-12">1-12</div>
+			<div class="cell col-1-12">1-12</div>
+			<div class="cell col-1-12">1-12</div>
+			<div class="cell col-1-12">1-12</div>
+			<div class="cell col-1-12">1-12</div>
+			<div class="cell col-1-12">1-12</div>
+			<div class="cell col-1-12">1-12</div>
+			<div class="cell col-1-12">1-12</div>
+			<div class="cell col-1-12">1-12</div>
+			<div class="cell col-1-12">1-12</div>
+		</div>
+
+		<div class="row row--gutters">
+			<div class="cell col-flex-1">
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at pharetra mauris, non ullamcorper nulla. Nam tortor nisl, vulputate vel viverra id, molestie et ipsum. Ut justo turpis, dictum nec velit id, vehicula vestibulum sem. Sed tempor libero eget nibh tristique ornare. Donec dignissim ex id elit rhoncus sodales. Etiam dui augue, semper eget tristique nec, malesuada vel nisi. Sed imperdiet hendrerit risus vestibulum suscipit. Nulla facilisi. Vivamus hendrerit ante a mauris vestibulum pharetra. Suspendisse vel neque a dui sollicitudin feugiat. Curabitur commodo volutpat urna, eget placerat erat dignissim eget. Duis nisl dui, accumsan sit amet bibendum vitae, pulvinar vitae felis. Pellentesque eleifend sem a velit vulputate fringilla. Fusce eu ornare nulla, in viverra tellus. Sed sit amet lacinia erat. Maecenas semper diam tortor.
+			</div>
+			<div class="cell col-flex-1">
+				Hi there, more text is in this div tag. This cell of the grid does not contain as much content.
+			</div>
+		</div>
+
+		<h4>Colors</h4>
+		<p class="color-example color-example--base00">.base00</p>
+		<p class="color-example color-example--base01">.base01</p>
+		<p class="color-example color-example--base02">.base02</p>
+		<p class="color-example color-example--base03">.base03</p>
+		<p class="color-example color-example--base04">.base04</p>
+		<p class="color-example color-example--base05">.base05</p>
+		<p class="color-example color-example--base06">.base06</p>
+		<p class="color-example color-example--base07">.base07</p>
+		<p class="color-example color-example--base08">.base08</p>
+		<p class="color-example color-example--base09">.base09</p>
+		<p class="color-example color-example--base0A">.base0A</p>
+		<p class="color-example color-example--base0B">.base0B</p>
+		<p class="color-example color-example--base0C">.base0C</p>
+		<p class="color-example color-example--base0D">.base0D</p>
+		<p class="color-example color-example--base0E">.base0E</p>
+		<p class="color-example color-example--base0F">.base0F</p>
+	</div>
+</section>

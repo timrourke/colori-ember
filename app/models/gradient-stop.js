@@ -8,9 +8,30 @@ const { computed } = Ember;
 
 export default Model.extend(ModelTimestamps, {
   left:   attr('number'),
-  color:  attr('string'),
+  r:  		attr('number'),
+  g:  		attr('number'),
+  b:  		attr('number'),
+	a: 			attr('number'),
 
   gradientLayer: belongsTo('gradient-layer', {async: true}),
+
+	/**
+	 * @property r
+	 * @property g
+	 * @property b
+	 * @property a
+	 *
+	 * Computes the rgba value string for the gradient stop
+	 */
+	color: computed('r', 'g', 'b', 'a', function() {
+		let {
+			r,
+			g,
+			b,
+			a
+		} = this.getProperties('r', 'g', 'b', 'a');
+		return `rgba(${r},${g},${b},${a})`; 
+	}),
 
   /**
    * @property left

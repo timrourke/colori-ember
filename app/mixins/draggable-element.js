@@ -34,7 +34,7 @@ export default Mixin.create({
     });
   },
 
-  handleMouseDown(event) {
+  handleMouseDown(event) { 
     this.set('_isDragging', true);
     this.send('dragStart', event);
   },
@@ -50,7 +50,7 @@ export default Mixin.create({
     this.send('dragEnd', event);
   },
 
-  willDestroyElement() {
+  willDestroyElement() { 
     this._super(...arguments);
 
     Ember.$(window).off(`.${this.elementId}`);

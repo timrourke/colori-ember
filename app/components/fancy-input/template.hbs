@@ -1,0 +1,13 @@
+<label class="control {{if inputHasFocus 'has-focus'}}" for={{inputId}}>
+	{{input
+		class=inputClasses
+   		id=inputId	
+		type=inputType
+		value=inputValue
+		focus-in=(action 'inputGotFocus')
+		focus-out=(action 'inputLostFocus')
+	}}
+	<span class="label-text">{{labelText}}</span>
+	<span class="placeholder-text"><em>{{placeholderText}}</em></span>
+	<div class="input-underline"></div>
+</label>

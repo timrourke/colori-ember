@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import { degsToRads } from 'color-storm/utils/color-converter';
 
-const { Component, computed, on } = Ember;
+const { Component, on } = Ember;
 
 function position(radians, distance) {
   let result = {

@@ -3,6 +3,10 @@
 	width: 100%;
 }
 
+.color-picker__inner {
+	min-width: 265px;
+}
+
 .color-picker__slider {
 	position: relative;
 	float: left;
@@ -20,7 +24,7 @@
 		bottom: 0;
 		background: white;
 		border-radius: 100%;
-		border: 1px solid white;
+		border: 1px solid $base06;
 		box-shadow: 0 0 6px rgba(0,0,0,0.5);
 		transform: translateY(50%);
 		z-index: 2;
@@ -70,8 +74,8 @@
 	}
 	& .color-picker__handle {
 		left: -1px;
-		height: 18px;
-		width: 18px;
+		height: 17px;
+		width: 17px;
 	}
 }
 
@@ -188,6 +192,7 @@
 	top: 0;
 	background-color: #e5e5e5;
 	border: none;
+	color: $base02;
 	outline: none;
 	font-family: monospace;
 	font-size: 0.8em;
@@ -208,16 +213,21 @@
 }
 
 .color-picker__inputs input:focus + span.color-picker__input-label {
-	color: blue;
+	color: $base0C ;
 	transform-origin: 0 0;
 	display: block;
 	transform: translateY(-25%);
 }
 
-.color-picker__inputs input[type=number]::-webkit-inner-spin-button, 
-.color-picker__inputs input[type=number]::-webkit-outer-spin-button,
-.color-picker__inputs input[type=number]::inner-spin-button, 
+.color-picker__inputs input[type=number]::-webkit-inner-spin-button {
+	display: none;
+}
+.color-picker__inputs input[type=number]::-webkit-outer-spin-button {
+	display: none;
+}
+.color-picker__inputs input[type=number]::inner-spin-button {
+	display: none;
+}
 .color-picker__inputs input[type=number]::outer-spin-button { 
-  -webkit-appearance: none;
-  margin: 0; 
+	display: none;
 }

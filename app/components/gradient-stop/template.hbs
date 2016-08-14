@@ -1,15 +1,19 @@
-<button {{action 'toggleIsShowingColorPicker'}}>
-	<span class="arrow"></span>
-</button>
-{{#if isShowingColorPicker}}
-	{{spectrum-color-picker
-		class=colorPickerPositionClass
-		color=color
-		flatMode=true
-		moveFiresChange=true
-		preferredFormat='rgb'
-		showAlpha=true
-		showInput=true
-		onChange=(action 'colorChanged')
-	}}
-{{/if}}
+{{#pop-over as |popover|}}
+	{{#popover.trigger}}	
+		<button {{action 'toggleIsShowingColorPicker'}}>
+			<span class="arrow"></span>
+		</button>
+	{{/popover.trigger}}
+	{{#popover.content}}
+		{{color-picker
+			r=r
+			g=g
+			b=b
+			alpha=a
+			showBasicInterface=true
+			showPreview=false
+			showWheel=false
+			onChange=(action 'colorChanged')
+		}}
+	{{/popover.content}}
+{{/pop-over}}

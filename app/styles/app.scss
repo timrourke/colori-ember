@@ -1,24 +1,29 @@
 // Variables
 @import 'variables/colors';
+@import 'variables/hue-range';
+@import 'variables/transitions';
 
 // Imports
 @import 'imports/normalize';
 @import 'imports/typeplate-sk/typeplate-index';
 @import 'imports/typography';
 
+// Utils
+@import 'utils/helpers';
+@import 'utils/flex';
+
 // Layout
+@import 'layout/grid';
 @import 'layout/main-layout';
 @import 'layout/header';
 @import 'layout/footer';
 @import 'layout/containers';
 
-// Utils
-@import 'utils/flex';
-
 // Components
 @import 'components/color-picker';
 @import 'components/color-picker/locator';
 @import 'components/color-picker/wheel';
+@import 'components/fancy-input';
 @import 'components/gradient-dial';
 @import 'components/gradient-layer';
 @import 'components/gradient-layer-clone';

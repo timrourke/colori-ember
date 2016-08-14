@@ -9,6 +9,7 @@ Router.map(function() {
   this.route('gradients', function() {
     this.route('gradient', { path: '/:gradient_id' });  
   });
+  this.route('style-guide');
 });
 
 export default Router;

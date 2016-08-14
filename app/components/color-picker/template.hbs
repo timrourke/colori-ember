@@ -4,8 +4,8 @@
 			{{color-picker/locator
 				isSmallSize=isSmallSize
 				maxPos=maxLocatorHeight
-				lightness=lPos
-				saturation=sPos
+				lightness=lightness
+				saturation=saturation
 				onChange=(action 'onChangeLocator')
 			}}
 		{{/if}}
@@ -110,7 +110,7 @@
 			{{#if showSlidersRgb}}
 				<div class="color-picker__slider color-picker__reds">
 					{{color-picker/handle
-						bottom=rPos
+						bottom=(round rPos)
 						parentHeight=maxHeight
 						onMove=(action 'updateR')
 					}}
@@ -118,7 +118,7 @@
 				</div>
 				<div class="color-picker__slider color-picker__greens">
 					{{color-picker/handle
-						bottom=gPos
+						bottom=(round gPos)
 						parentHeight=maxHeight
 						onMove=(action 'updateG')
 					}}
@@ -126,7 +126,7 @@
 				</div>
 				<div class="color-picker__slider color-picker__blues">
 					{{color-picker/handle
-						bottom=bPos
+						bottom=(round bPos)
 						parentHeight=maxHeight
 						onMove=(action 'updateB')
 					}}
@@ -167,7 +167,8 @@
 							min="0" 
 							max="255" 
 							type="number" 
-							value=r
+							value=(round r)
+							key-down=(action 'setR')
 						}}
 						<span class="color-picker__input-label">R</span>
 					</label>
@@ -177,7 +178,8 @@
 							min="0" 
 							max="255" 
 							type="number" 
-							value=g
+							value=(round g)
+							key-down=(action 'setG')
 						}}
 						<span class="color-picker__input-label">G</span>
 					</label>
@@ -187,7 +189,8 @@
 							min="0" 
 							max="255" 
 							type="number" 
-							value=b
+							value=(round b)
+							key-down=(action 'setB')
 						}}
 						<span class="color-picker__input-label">B</span>
 					</label>
@@ -313,9 +316,6 @@
 				{{/if}}
 			</form>
 		{{/if}}
-	</div>
-	<div class="color-picker__controls">
-		<button {{action 'toggleSize'}}>Toggle Size</button>
 	</div>
 </div>
 

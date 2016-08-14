@@ -27,6 +27,7 @@ export default Component.extend(DraggableElement, {
    * Set the locator ring's position on click
    */
   click(e) {
+		console.log('setting position');
     this.setPosition(e);
   },
 
@@ -49,10 +50,10 @@ export default Component.extend(DraggableElement, {
     if (position.left < 0) {
       position.left = 0;
     }
-    if (position.top > maxPos) {
+    if (position.top >= maxPos) {
       position.top = maxPos;
     }
-    if (position.left > maxPos) {
+    if (position.left >= maxPos) {
       position.left = maxPos;
     }
     this.$('.color-picker__locator-ring').css(position);
@@ -67,19 +68,20 @@ export default Component.extend(DraggableElement, {
    */
   updatePosition: on('didUpdateAttrs', function() {
     let maxPos = this.get('maxPos');
-    let hslSat = (this.get('saturation') * 1.083333333/ maxPos);
-    let hslBri = (this.get('lightness') * 1.083333333/ maxPos);
    
     let [
       saturation,
       brightness 
-    ] = hslToHsb(hslSat, hslBri);
+    ] = hslToHsb(
+			this.get('saturation') / 100, 
+			this.get('lightness') / 100
+		);
     
     let newPos = {
       top: -((brightness * maxPos) - maxPos),
       left: (saturation * maxPos)
     };
-    
+
     this.$('.color-picker__locator-ring').css(newPos);
   }),
 
@@ -90,6 +92,7 @@ export default Component.extend(DraggableElement, {
      * Update the locator ring's position on drag event
      */
     dragDrag(e) {
+			console.log('dragging');
       this.setPosition(e);
     },
   }

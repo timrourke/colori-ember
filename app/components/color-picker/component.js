@@ -48,6 +48,19 @@ export default Component.extend({
     return 360;
   }),
 
+	/**
+	 * @property isSmallSize
+	 * @return Number
+	 *
+	 * The maximum drag position for the locator
+	 */
+	maxLocatorHeight: computed('isSmallSize', function() {
+		if (this.get('isSmallSize')) {
+			return 195;
+		}
+		return 390;
+	}),
+
   /**
    * @property rgb.r
    * @sets hue
@@ -876,7 +889,28 @@ export default Component.extend({
     let h = this.get('hue');
     this.set('hue', 0);
     this.set('hue', h);
+		this.sendOnChange();
   }),
+
+	/**
+	 * Sends RGBA values up to parent
+	 */
+	sendOnChange: function() {
+		let [
+			r,
+			g,
+			b,
+			a
+		] = [
+			this.get('r'), 
+			this.get('g'), 
+			this.get('b'), 
+			this.get('alpha')
+		];
+
+		this.sendAction('onChange', 
+				Math.round(r), Math.round(g), Math.round(b), a);
+	},
 
   actions: {
     /**
@@ -885,10 +919,20 @@ export default Component.extend({
      * Updates saturation and lightness using top/left pixel coordinates
      */
     onChangeLocator(position) {
-      let maxHeight = this.get('maxHeight');
+      let maxHeight = this.get('maxLocatorHeight');
       let satPos = (position.left / maxHeight);
       let briPos = ((maxHeight - position.top) / maxHeight);
       
+			if (satPos > 100) {
+				satPos = 100;
+			} else if (satPos < 0) {
+				setPos = 0;
+			}
+			if (briPos > 100) {
+				briPos = 100;
+			} else if (briPos < 0) {
+				briPos = 0;
+			}
       let [
         saturation,
         lightness
@@ -896,6 +940,7 @@ export default Component.extend({
       
       this.set('saturation', parseFloat((saturation * 100).toFixed(2)));
       this.set('lightness', parseFloat((lightness * 100).toFixed(2)));
+			this.sendOnChange();
     },
 
     /**
@@ -915,6 +960,7 @@ export default Component.extend({
         H * 2 :
         H;
       this.set('hue', Math.round(hue));
+			this.sendOnChange();
     },
 
     /**
@@ -926,6 +972,7 @@ export default Component.extend({
       let maxHeight = this.get('maxHeight');
       let newSaturation = (S / maxHeight) * 100;
       this.set('saturation', parseFloat(newSaturation.toFixed(2)));
+			this.sendOnChange();
     },
 
     /**
@@ -937,6 +984,7 @@ export default Component.extend({
       let maxHeight = this.get('maxHeight');
       let newLightness = (L / maxHeight) * 100;
       this.set('lightness', parseFloat(newLightness.toFixed(2)));
+			this.sendOnChange();
     },
 
     /**
@@ -948,6 +996,7 @@ export default Component.extend({
       let maxHeight = this.get('maxHeight');
       let newHsbSat = (S / maxHeight) * 100;
       this.set('hsbSaturation', parseFloat(newHsbSat.toFixed(2)));
+			this.sendOnChange();
     },
 
     /**
@@ -959,6 +1008,7 @@ export default Component.extend({
       let maxHeight = this.get('maxHeight');
       let newHsbBri = (B / maxHeight) * 100;
       this.set('hsbBrightness', parseFloat(newHsbBri.toFixed(2)));
+			this.sendOnChange();
     },
 
     /**
@@ -970,6 +1020,7 @@ export default Component.extend({
       let maxHeight = this.get('maxHeight');
       let newAlpha = (A / maxHeight);
       this.set('alpha', newAlpha.toFixed(2));
+			this.sendOnChange();
     },
 
     /**
@@ -980,7 +1031,35 @@ export default Component.extend({
     updateR(R) {
       let maxHeight = this.get('maxHeight');
       this.set('r', Math.round((R / maxHeight) * 255));
+			this.sendOnChange();
     },
+
+		setR(R) {
+			if (R > 255) {
+				R = 255;
+			} else if (R < 0) {
+				R = 0;
+			}
+			this.set('r', R);
+		},
+
+		setG(G) {
+			if (G > 255) {
+				G = 255;
+			} else if (G < 0) {
+				G = 0;
+			}
+			this.set('g', G);
+		},
+
+		setB(B) {
+			if (B > 255) {
+				B = 255;
+			} else if (B < 0) {
+				B = 0;
+			}
+			this.set('b', B);
+		},
 
     /**
      * @param Number G  Number to set green to
@@ -990,6 +1069,7 @@ export default Component.extend({
     updateG(G) {
       let maxHeight = this.get('maxHeight');
       this.set('g', Math.round((G / maxHeight) * 255));
+			this.sendOnChange();
     },
 
     /**
@@ -1000,6 +1080,7 @@ export default Component.extend({
     updateB(B) {
       let maxHeight = this.get('maxHeight');
       this.set('b', Math.round((B / maxHeight) * 255));
+			this.sendOnChange();
     },
   }
 });
