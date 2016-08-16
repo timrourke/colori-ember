@@ -1,8 +1,17 @@
 import Ember from 'ember';
 import { didAttrUpdate } from 'color-storm/utils/did-attr-update';
 
-const { Component, computed, run } = Ember;
+const { 
+	addListener,
+	Component, 
+	computed,
+	on,
+	removeListener,
+	run,
+	sendEvent
+} = Ember;
 const { debounce, scheduleOnce } = run;
+const { service } = Ember.inject;
 
 /**
  * @param Object pointA   A set of coordinates in {x:Number,y:Number} format
@@ -16,6 +25,10 @@ function calcLinearDistance(pointA, pointB) {
   return Math.sqrt(Math.pow(xSet, 2) + Math.pow(ySet, 2));
 }
 
+function sendOnResize() {
+	sendEvent(this, 'windowDidResize');
+}
+
 export default Component.extend({
   classNames: ['gradient-dial'],
   movesPosition: false,
@@ -25,11 +38,25 @@ export default Component.extend({
   // Dimensional attributes
   x: 0,
   y: 0,
-  w: 200,
+	w: 200,
   h: 200,
   ctrX: 0,
   ctrY: 0,
   _angle: 0,
+
+	windowResize: service('window-resize'),
+
+	centerElementOnWindowResize: on('windowDidResize', function() {
+		this.centerDialPosition(this.get('w'), this.get('h'));
+	}),
+
+	bindWindowDidResize: on('didInsertElement', function() {
+		addListener(this.get('windowResize'), 'windowDidResize', this, sendOnResize);
+	}),
+
+	unbindWindowDidResize: on('willDestroyElement', function() {
+		removeListener(this.get('windowResize'), 'windowDidResize', this, sendOnResize);
+	}),
 
   /**
    * @property _angle
@@ -53,17 +80,7 @@ export default Component.extend({
 
     // Set up initial state and DOM event bindings
     scheduleOnce('afterRender', this, () => {
-      this.set('x', (parseInt(window.innerWidth) / 2) - (w / 2));
-      this.set('y',  (parseInt(window.innerHeight) / 2) - (h / 2));
-      this.$().css({
-        position: 'absolute',
-        top: (parseInt(window.innerHeight) / 2) - (h / 2) + 'px',
-        left: (parseInt(window.innerWidth) / 2) - (w / 2) + 'px',
-        borderRadius: '50%',
-        display: 'block',
-        width: `${w}px`,
-        height: `${h}px`,
-      });
+			this.centerDialPosition(w, h);
 
       Ember.$('body').on('mouseup', this.unbindEvents);
 
@@ -150,6 +167,20 @@ export default Component.extend({
     this.set('_angle', angle);
     this.updateAngle(angle);
   },
+
+	centerDialPosition(w, h) {
+		this.set('x', (parseInt(window.innerWidth) / 2) - (w / 2));
+		this.set('y',  (parseInt(window.innerHeight) / 2) - (h / 2));
+		this.$().css({
+			position: 'absolute',
+			top: (parseInt(window.innerHeight) / 2) - (h * 0.75) + 'px',
+			left: (parseInt(window.innerWidth) / 2) - (w / 2) + 'px',
+			borderRadius: '50%',
+			display: 'block',
+			width: `${w}px`,
+			height: `${h}px`,
+		});
+	},
 
   /**
    * @param Object event  Browser event object
