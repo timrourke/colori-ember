@@ -1,7 +1,9 @@
 body {
 	background: $dark;
 	display: flex;
+	max-width: 100%;
 	min-height: 100vh;
+	overflow-x: hidden;
 }
 
 #app {
