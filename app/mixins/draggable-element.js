@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { Mixin, run } = Ember;
+const { K, Mixin, run } = Ember;
 const { scheduleOnce } = run;
 
 export default Mixin.create({
@@ -11,7 +11,7 @@ export default Mixin.create({
 
     scheduleOnce('afterRender', this, () => {
       Ember.$(document).on(`mouseup.${this.elementId}`, (e) => {
-        if (this.isDestroyed) {
+        if (this.isDestroyed || !this.get('_isDragging')) {
           return false;
         }
         this.handleMouseUp(e);
@@ -36,18 +36,18 @@ export default Mixin.create({
 
   handleMouseDown(event) { 
     this.set('_isDragging', true);
-    this.send('dragStart', event);
+    this.dragStart(event);
   },
 
   handleMouseMove(event) {
     if (this.get('_isDragging')) {
-      this.send('dragDrag', event);     
+      this.dragDrag(event);     
     }
   },
 
   handleMouseUp(event) {
     this.set('_isDragging', false);
-    this.send('dragEnd', event);
+    this.dragEnd(event);
   },
 
   willDestroyElement() { 
@@ -56,18 +56,13 @@ export default Mixin.create({
     Ember.$(window).off(`.${this.elementId}`);
   },
 
-  actions: {
-    dragStart() {
-      // Override in implementation
-    },
+	dragStart: K,
+		// Override in implementation
 
-    dragDrag() {
-      // Override in implementation
-    },
+	dragDrag: K,
+		// Override in implementation
 
-    dragEnd() {
-      // Override in implementation
-    },
-  }
+	dragEnd: K,
+		// Override in implementation
 
 });

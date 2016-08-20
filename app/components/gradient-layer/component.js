@@ -75,34 +75,32 @@ export default Component.extend(DraggableElement, {
     }
   },
 
-  actions: {
-    dragStart(event) {
-      if (this.get('isCloneActive')) {
-        return;
-      }
-      run(() => {
-        let offset = this.initPosition(event);
-        this.sendAction('initClone', offset, this.get('gradientLayer'));
-      });  
-    },
+	dragStart(event) {
+		if (this.get('isCloneActive')) {
+			return;
+		}
+		run(() => {
+			let offset = this.initPosition(event);
+			this.sendAction('initClone', offset, this.get('gradientLayer'));
+		});  
+	},
 
-    dragDrag(event) {
-      if (!this.get('cloneTop')) {
-        this.sendAction('showClone');
-      }
+	dragDrag(event) {
+		if (!this.get('cloneTop')) {
+			this.sendAction('showClone');
+		}
 
-      run(() => {
-        let dy = (event.originalEvent.movementY > 0) ? 
-          1 : (event.originalEvent.movementY < 0) ? 
-          -1 : 0;
-        let offset = this.get('_offset');
+		run(() => {
+			let dy = (event.originalEvent.movementY > 0) ? 
+				1 : (event.originalEvent.movementY < 0) ? 
+				-1 : 0;
+			let offset = this.get('_offset');
 
-        this.sendAction('moveClone', event.clientY - offset, event.clientY, dy);
-      });
-    },
+			this.sendAction('moveClone', event.clientY - offset, event.clientY, dy);
+		});
+	},
 
-    dragEnd() {
-      this.sendAction('hideClone');
-    }  
-  }
+	dragEnd() {
+		this.sendAction('hideClone');
+	}  
 });

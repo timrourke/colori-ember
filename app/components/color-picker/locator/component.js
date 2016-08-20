@@ -84,14 +84,12 @@ export default Component.extend(DraggableElement, {
     this.$('.color-picker__locator-ring').css(newPos);
   }),
 
-  actions: {
-    /**
-     * @param Object e  jQuery event object
-     *
-     * Update the locator ring's position on drag event
-     */
-    dragDrag(e) {
-      this.setPosition(e);
-    },
-  }
+	/**
+	 * @param Object e  jQuery event object
+	 *
+	 * Update the locator ring's position on drag event
+	 */
+	dragDrag(e) {
+		this.setPosition(e);
+	},
 });

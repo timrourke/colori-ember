@@ -56,37 +56,34 @@ export default Component.extend(DraggableElement, {
     });
   },
 
-  actions: {
-    /**
-     * @param Object e  jQuery event object
-     *
-     * Reinitialize component's bounds on drag start
-     */
-    dragStart(e) {
-      this.initPosition(e);
-    },
+	/**
+	 * @param Object e  jQuery event object
+	 *
+	 * Reinitialize component's bounds on drag start
+	 */
+	dragStart(e) {
+		this.initPosition(e);
+	},
 
-    /**
-     * @param Object e  jQuery event object
-     *
-     * Update handle's position on drag and send new position up to parent
-     */
-    dragDrag(e) {
-      run(() => {
-        let offset = this.get('_offset');
-        let maxHeight = this.get('parentHeight');
-        let newPos = e.clientY - offset;
+	/**
+	 * @param Object e  jQuery event object
+	 *
+	 * Update handle's position on drag and send new position up to parent
+	 */
+	dragDrag(e) {
+		run(() => {
+			let offset = this.get('_offset');
+			let maxHeight = this.get('parentHeight');
+			let newPos = e.clientY - offset;
 
-        if (newPos <= 0) {
-          newPos = 0;
-        }
-        if (newPos >= maxHeight) {
-          newPos = maxHeight;
-        }
+			if (newPos <= 0) {
+				newPos = 0;
+			}
+			if (newPos >= maxHeight) {
+				newPos = maxHeight;
+			}
 
-        this.sendAction('onMove', -(newPos - maxHeight));
-      });
-    }
-  }
-  
+			this.sendAction('onMove', -(newPos - maxHeight));
+		});
+	}
 });
