@@ -926,7 +926,7 @@ export default Component.extend({
 			if (satPos > 100) {
 				satPos = 100;
 			} else if (satPos < 0) {
-				setPos = 0;
+				satPos = 0;
 			}
 			if (briPos > 100) {
 				briPos = 100;
