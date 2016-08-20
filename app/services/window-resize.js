@@ -5,7 +5,7 @@ const { debounce, scheduleOnce } = Ember.run;
 
 function sendOnResize() {
 	sendEvent(this, 'windowDidResize');
-};
+}
 
 export default Service.extend({
 
