@@ -2,14 +2,13 @@ import Ember from 'ember';
 import ClickOutside from 'ember-click-outside/mixins/click-outside';
 import DraggableElement from 'color-storm/mixins/draggable-element';
 
-const { Component, computed, on, run } = Ember;
-const { next, scheduleOnce } = run;
+const { Component, on, run } = Ember;
+const { later, next, scheduleOnce } = run;
 
 export default Component.extend(ClickOutside, DraggableElement, {
   classNames: ['gradient-stop'],
   gradientStop: null,
-  hasRoomToRight: true,
-  isShowingColorPicker: false,
+  popoverAlignment: 'center',
 	r: 0,
 	g: 0,
 	b: 0,
@@ -18,18 +17,6 @@ export default Component.extend(ClickOutside, DraggableElement, {
   _elementWidth: 0,
   _halfElementWidth: 0,
   _parentWidth: 0,
-
-  /**
-   * @property hasRoomToRight
-   *
-   * Reposition color picker if there isn't room to fit in window
-   */
-  colorPickerPositionClass: computed('hasRoomToRight', function() {
-    if (this.get('hasRoomToRight')) {
-      return 'sp-container--left';   
-    }
-    return 'sp-container--right';
-  }),
 
 	/**
 	 * Initialize the styles for the gradient-stop
@@ -62,15 +49,6 @@ export default Component.extend(ClickOutside, DraggableElement, {
   _removeClickOutsideHandler: on('willDestroyElement', function() {
     this.removeClickOutsideListener();
   }),
-
-  /**
-   * Close color picker menu when click even fires outside of this element
-   */
-  clickOutside() {
-    run(() => {
-      this.set('isShowingColorPicker', false);
-    });
-  },
 
 	/**
 	 * Set gradient-stop position and color
@@ -105,11 +83,61 @@ export default Component.extend(ClickOutside, DraggableElement, {
    * Simple collision detection for placement of color picker
    */
   testColorPickerPosition() {
-    run(() => {
-      let hasRoomToRight = (this.$().offset().left + 240) < window.innerWidth;
-      this.set('hasRoomToRight', hasRoomToRight);
-    });
+    later(this, () => {
+			let contentWidth = this.$().find('.pop-over__content').width();
+			let offsetLeft = this.$().offset().left;
+      let hasRoomToRight = (offsetLeft + contentWidth) < window.innerWidth;
+			let hasRoomToLeft = (offsetLeft - contentWidth) > 0;
+			if (!hasRoomToRight) {
+      	this.set('popoverAlignment', 'right');
+			} else if (!hasRoomToLeft) {
+				this.set('popoverAlignment', 'left');
+			} else {
+				this.set('popoverAlignment', 'center');
+			}
+    }, 200);
   },
+
+	/**
+	 * Initialize element's dimensional constraints for managing drag position
+	 */
+	dragStart() {
+		run(() => {
+			let width = this.$().width();
+			this.set('_elementWidth', width);
+			this.set('_halfElementWidth', width / 2);
+			this.set('_parentWidth', this.$().parent().width());
+		});
+	},
+
+	/**
+	 * @param Object event  Event object
+	 *
+	 * Handle lateral dragging of gradient-stop
+	 */
+	dragDrag(event) {
+		let parentWidth = this.get('_parentWidth');
+		let middle = this.$().offset().left + this.get('_halfElementWidth');
+		let leftPercentage = (event.clientX / parentWidth) * 100;
+		let rightPercentage = ((middle) / parentWidth) * 100;
+		if (leftPercentage < 0 || rightPercentage > 100) {
+			return;
+		}
+
+		run(() => {
+			this.$().css('left', `${leftPercentage}%`);
+			this.set('gradientStop.left', leftPercentage);
+		});
+	},
+
+	/**
+	 * @param Object event  Event object
+	 *
+	 * Handle dragStop of gradient-stop
+	 */
+	dragEnd() {
+		this.testColorPickerPosition();
+	},
 
   actions: {
     /**
@@ -133,54 +161,5 @@ export default Component.extend(ClickOutside, DraggableElement, {
         this.$('button .arrow').css('border-bottom', `6px solid ${color}`);
       });
     },
-
-    /**
-     * Initialize element's dimensional constraints for managing drag position
-     */
-    dragStart() {
-      run(() => {
-        let width = this.$().width();
-        this.set('_elementWidth', width);
-        this.set('_halfElementWidth', width / 2);
-        this.set('_parentWidth', this.$().parent().width());
-      });
-    },
-
-    /**
-     * @param Object event  Event object
-     *
-     * Handle lateral dragging of gradient-stop
-     */
-    dragDrag(event) {
-      let parentWidth = this.get('_parentWidth');
-      let middle = this.$().offset().left + this.get('_halfElementWidth');
-      let leftPercentage = (event.clientX / parentWidth) * 100;
-      let rightPercentage = ((middle) / parentWidth) * 100;
-      if (leftPercentage < 0 || rightPercentage > 100) {
-        return;
-      }
-
-      run(() => {
-        this.$().css('left', `${leftPercentage}%`);
-        this.set('gradientStop.left', leftPercentage);
-      });
-    },
-
-    /**
-     * @param Object event  Event object
-     *
-     * Handle dragStop of gradient-stop
-     */
-    dragStop() {
-      this.testColorPickerPosition();
-    },
-
-    /**
-     * Handle click event on gradient-stop
-     */
-    toggleIsShowingColorPicker() {
-      this.toggleProperty('isShowingColorPicker');
-      this.testColorPickerPosition();
-    }
   }
 });

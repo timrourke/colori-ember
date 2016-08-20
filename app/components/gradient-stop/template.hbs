@@ -1,10 +1,13 @@
 {{#pop-over as |popover|}}
 	{{#popover.trigger}}	
-		<button {{action 'toggleIsShowingColorPicker'}}>
+		<button>
 			<span class="arrow"></span>
 		</button>
 	{{/popover.trigger}}
-	{{#popover.content}}
+	{{#popover.content
+		autoAlign=true
+		horizontalAlignment=popoverAlignment
+	}}
 		{{color-picker
 			r=r
 			g=g
