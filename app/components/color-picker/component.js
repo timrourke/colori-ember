@@ -1034,33 +1034,6 @@ export default Component.extend({
 			this.sendOnChange();
     },
 
-		setR(R) {
-			if (R > 255) {
-				R = 255;
-			} else if (R < 0) {
-				R = 0;
-			}
-			this.set('r', R);
-		},
-
-		setG(G) {
-			if (G > 255) {
-				G = 255;
-			} else if (G < 0) {
-				G = 0;
-			}
-			this.set('g', G);
-		},
-
-		setB(B) {
-			if (B > 255) {
-				B = 255;
-			} else if (B < 0) {
-				B = 0;
-			}
-			this.set('b', B);
-		},
-
     /**
      * @param Number G  Number to set green to
      *
@@ -1081,6 +1054,62 @@ export default Component.extend({
       let maxHeight = this.get('maxHeight');
       this.set('b', Math.round((B / maxHeight) * 255));
 			this.sendOnChange();
+    },
+
+		/**
+		 * @param Number R 	Number to set R to
+		 *
+		 * Set R from Number input
+		 */
+		inputSetR(R) {
+			if (R > 255) {
+				R = 255;
+			} else if (R < 0) {
+				R = 0;
+			}
+			this.set('r', R);
+		},
+
+		/**
+		 * @param Number G 	Number to set G to
+		 *
+		 * Set G from number input
+		 */
+		inputSetG(G) {
+			if (G > 255) {
+				G = 255;
+			} else if (G < 0) {
+				G = 0;
+			}
+			this.set('g', G);
+		},
+
+		/**
+     * @param Number B  Number to set B to
+     *
+     * Set B from number input
+     */
+    inputSetB(B) {
+      if (B > 255) {
+        B = 255;
+      } else if (B < 0) {
+        B = 0;
+      }
+      this.set('b', B);
+    },
+
+    /**
+     * @param Number A  Number to set A to
+     *
+     * Set A from number input
+     */
+    inputSetA(A) {
+      if (A > 1) {
+        A = 1;
+      } else if (A < 0) {
+        A = 0;
+      }
+      this.set('alpha', A);
     },
   }
 });

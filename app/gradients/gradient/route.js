@@ -7,6 +7,9 @@ export default Route.extend({
   _isSwappingOrder: false,
 
   model(params) {
+		if (params.gradient_id === 'new') {
+			return this.store.createRecord('gradient');
+		}
     return this.store.findRecord('gradient', params.gradient_id);
   },
 
