@@ -1,12 +1,7 @@
-<ul>
+<ul class="gradients-grid">
 	{{#each gradients as |gradient|}}
-	<li>
-		<div class="gradient">
-			{{#link-to 'gradients.gradient' gradient}}
-				<h3>{{gradient.title}}</h3>
-			{{/link-to}}
-			<p>{{gradient.description}}</p>
-		</div>
-	</li>
+		{{gradients-grid-item
+			gradient=gradient
+		}}
 	{{/each}}
 </ul>

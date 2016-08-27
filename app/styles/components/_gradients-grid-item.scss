@@ -1,0 +1,56 @@
+ul.gradients-grid {
+	display: flex;
+	flex-wrap: wrap;
+	padding: 1em;
+}
+
+.gradients-grid__item {
+	border: 0.5em solid $base01;
+	display: block;
+	flex: 1;
+	float: left;
+	height: 0;
+	list-style-type: none;
+	overflow: hidden;
+	padding-bottom: 50%;
+	position: relative;
+	min-width: 100%;
+	@media all and (min-width: 30em) {
+		min-width: 50%;
+	}
+	@media all and (min-width: 40em) {
+		max-width: 33.33333%;
+		min-width: 33.33333%;
+		padding-bottom: 30%;
+	}
+	@media all and (min-width: 60em) {
+		max-width: 25%;
+		min-width: 25%;
+		padding-bottom: 22.5%;
+	}
+}
+
+.gradients-grid__gradient {
+	height: 100%;
+	position: absolute;
+	width: 100%;
+	border: 0.5em solid $base02;
+}
+
+.gradients-grid__details {
+	@include fast-transition(opacity);
+	background: lighten($base02, 3.5%);
+	height: 100%;
+	opacity: 0;
+	padding: 1em;
+	position: relative;
+	width: 100%;
+	&:hover {
+		opacity: 1;
+	}
+}
+
+.gradients-grid__description {
+	color: $base06;
+	margin-bottom: 0;
+}

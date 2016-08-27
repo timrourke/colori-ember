@@ -14,6 +14,17 @@ export default Controller.extend({
     }
   }),
 
+	/**
+	 * @property activeGradientLayer
+	 * @property gradient.gradientLayers.[]
+	 * @property gradient.gradientLayers.@each.order
+	 * @property gradient.gradientLayers.@each.angleDeg
+	 * @property gradient.gradientLayers.@each.gradientCssString
+	 * @return String
+	 *
+	 * Returns a concatenated string of the gradient layers' CSS styles ordered
+	 * by the `order` property of each gradient layer
+	 */
   allGradientLayers: computed('activeGradientLayer',
                               'gradient.gradientLayers.[]', 
                               'gradient.gradientLayers.@each.order',

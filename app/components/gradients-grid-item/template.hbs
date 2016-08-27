@@ -1,0 +1,14 @@
+{{#link-to 'gradients.gradient' gradient}}
+	<div class="gradients-grid__gradient">
+		<div class="gradients-grid__details">
+			<h5 class="gradients-grid__title">{{gradient.title}}</h5>
+			<p class="gradients-grid__description">{{gradient.description}}</p>
+		</div>
+	</div>
+{{/link-to}}
+
+<style type="text/css">
+	{{concat '#' elementId}} .gradients-grid__gradient {
+		background: {{allGradientLayers}}
+	}
+</style>
