@@ -12,6 +12,10 @@ module.exports = function(defaults) {
     }
   });
 
+	if (app.env === 'test') {
+		app.import('bower_components/jquery-simulate/jquery.simulate.js');
+	}
+
   // Use `app.import` to add additional libraries to the generated
   // output files.
   //
