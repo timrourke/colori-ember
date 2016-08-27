@@ -6,6 +6,10 @@ const { next } = Ember.run;
 
 export default Mixin.create(ClickOutside, {
   clickOutside() {
+		if (this.isDestroyed) {
+			return false;
+		}
+
     this.onClickElsewhere();
   },
 
