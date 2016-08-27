@@ -6,6 +6,7 @@ ul.gradients-grid {
 
 .gradients-grid__item {
 	border: 0.5em solid $base01;
+	border-radius: 4px 4px;
 	display: block;
 	flex: 1;
 	float: left;
@@ -31,10 +32,10 @@ ul.gradients-grid {
 }
 
 .gradients-grid__gradient {
+	border: 0.5em solid $base02;
 	height: 100%;
 	position: absolute;
 	width: 100%;
-	border: 0.5em solid $base02;
 }
 
 .gradients-grid__details {
