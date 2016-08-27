@@ -94,6 +94,7 @@ moduleForComponent('color-picker', 'Integration | Component | color picker', {
 	[	240, 	2, 		76, 	1, 		341.35, 98.35, 	47.45]
 ].forEach(testCase => {
 	test('it sets RGBA values on text input', function(assert) {
+		// Given there is a color-picker component without any values set
 		let [
 			r,
 			g,
@@ -114,6 +115,7 @@ moduleForComponent('color-picker', 'Integration | Component | color picker', {
 			lightness: 0
 		});
 
+		// When I view the component with all inputs visible
 		page.render(hbs`
 			{{color-picker
 				r=r
@@ -132,15 +134,30 @@ moduleForComponent('color-picker', 'Integration | Component | color picker', {
 			}}
 		`);
 
-		assert.ok(true,
+		// Then I should see the inputs
+		assert.ok(page.colorPicker.inputs.isVisible,
 			"I should see the inputs.");
 
-		this.$('#color-picker__input-R').val(r).change().trigger('keydown');
-		this.$('#color-picker__input-G').val(g).change().trigger('keydown');
-		this.$('#color-picker__input-B').val(b).change().trigger('keydown');
-		this.$('#color-picker__input-A1').val(a).change().trigger('keydown');
+		// When I set some values in the color picker's text inputs
+		this.$('#color-picker__input-R')
+			.val(r)
+			.change()
+			.trigger('keydown');
+		this.$('#color-picker__input-G')
+			.val(g)
+			.change()
+			.trigger('keydown');
+		this.$('#color-picker__input-B')
+			.val(b)
+			.change()
+			.trigger('keydown');
+		this.$('#color-picker__input-A1')
+			.val(a)
+			.change()
+			.trigger('keydown');
 		
 		return wait().then(() => {
+			// Then I should see the RGBA values have been correctly set
 			assert.deepEqual([
 					Math.round(this.get('r')),
 					Math.round(this.get('g')),
@@ -150,6 +167,7 @@ moduleForComponent('color-picker', 'Integration | Component | color picker', {
 				[r, g, b, a],
 				"The RGBA values should have been correctly set.");
 
+			// And I should see the HSL values have been correctly set
 			assert.deepEqual([
 					parseFloat(this.get('hue')),
 					parseFloat(this.get('saturation')),
