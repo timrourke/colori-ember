@@ -1,21 +1,26 @@
-<h1>Welcome to ColorStorm</h1>
-{{#pop-over as |popover|}}
-	{{#popover.trigger}}
-		Click me
-	{{/popover.trigger}}
-	{{#popover.content
-		autoAlign=true
-	}}
-		{{color-picker
-			r=red
-			g=green
-			b=blue
-			alpha=alpha
-			showBasicInterface=false
-			showInputs=true
-			showPreview=false
-			showSliders=true
-			showWheel=false
-		}}
-	{{/popover.content}}
-{{/pop-over}}
+<section id="index">
+	<div class="column">
+		<h1>Welcome to ColorStorm</h1>
+		<p>
+			{{#link-to 'gradients.gradient' 'new'}}
+				Create a new gradient
+			{{/link-to}}
+		</p>
+	</div>
+</section>
+
+{{color-picker
+	showAlpha=true
+	showInputs=true
+	showInputsHex=true
+	showInputsHsb=true
+	showInputsHsl=true
+	showInputsRgb=true
+	showLocator=true
+	showPreview=true
+	showSliders=true
+	showSlidersRgb=true
+	showSlidersHsl=true
+	showSlidersHsb=true
+	showWheel=false
+}}

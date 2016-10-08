@@ -53,6 +53,11 @@ export default Controller.extend({
   }),
 
   actions: {
+		/**
+		 * @property gradient-layer gradientLayer 	Gradient layer to set as active
+		 *
+		 * Sets selected gradient-layer model as active for editing
+		 */
     setActiveGradientLayer(gradientLayer) {
       this.set('activeGradientLayer', gradientLayer);
     }

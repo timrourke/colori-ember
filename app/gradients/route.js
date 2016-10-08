@@ -15,7 +15,8 @@ export default Route.extend({
   },
 
   setupController(controller, model) {
-    controller.set('gradients', model);
+		// Display only those gradients that have been saved
+    controller.set('gradients', model.filter(m => !m.get('isNew')));
   }
 
 });
