@@ -19,7 +19,7 @@ export default Mixin.create({
       });
 
       this.$().on(`mousedown.${this.elementId}`, (e) => {
-        if (this.isDestroyed) {
+        if (e.which !== 1 || this.isDestroyed) {
           return false;
         }
 
@@ -27,7 +27,7 @@ export default Mixin.create({
         
         // Make sure Ember click handler still fires
         if (typeof this.click === 'function') {
-          this.click();  
+          this.click(e);  
         }
         
         return false;
