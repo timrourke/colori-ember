@@ -1,7 +1,10 @@
 #gradient-layer-clone {
+	box-shadow: 0 0 12px rgba(0, 0, 0, 0.75);
 	opacity: 0;
+	outline: 1px solid white;
 	position: absolute;
 	right: 10px;
+	transform: scale(1.05);
 }
 
 #gradient-layer-clone .gradient-layer__background {
