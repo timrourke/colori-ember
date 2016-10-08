@@ -60,17 +60,22 @@ export default Route.extend({
       if (this.get('_isSwappingOrder')) {
         return;
       }
+      
       if (guidFor(gradientLayer) === guidFor(cloneGradientLayer)) {
         return;
       }
+      
       this.set('_isSwappingOrder', true);
+      
       run(() => {
         let distance = '+=60px';
         let srcOrder = cloneGradientLayer.get('order');
         let destOrder = gradientLayer.get('order');
+      
         if (srcOrder < destOrder) {
           distance = '-=60px';
         }
+      
         gradientLayerEl.velocity({
           top: distance,
         },{

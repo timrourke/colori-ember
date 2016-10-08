@@ -1,12 +1,13 @@
 #gradient-layer-clone {
+	opacity: 0;
 	position: absolute;
 	right: 10px;
 }
 
 #gradient-layer-clone .gradient-layer__background {
+	height: 100%;
+	left: 0;
 	position: absolute;
 	top: 0;
-	left: 0;
 	width: 100%;
-	height: 100%;
 }

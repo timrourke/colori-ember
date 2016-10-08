@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 const { Component, run } = Ember;
-const { scheduleOnce } = run;
+const { next, scheduleOnce } = run;
 
 export default Component.extend({
   activeGradientLayerId: null,
@@ -22,17 +22,22 @@ export default Component.extend({
      * Initialize the gradient-layer-clone with its position and the CSS string
      * for displaying the dragged gradient layer's current gradient styles
      */
-    initClone(offset, gradientLayer) {
+    initClone(cloneTop, gradientLayer) {
       this.set('isCloneActive', true);
       this.set('gradientLayerCloneCss', gradientLayer.get('gradientCssString'));
-      this.set('cloneTop', offset);
+      this.set('cloneTop', cloneTop);
       this.set('cloneDeltaY', 0);
       this.set('cloneGradientLayer', gradientLayer);
       
-      scheduleOnce('afterRender', this, () => {
-        this.$('#gradient-layer-clone').css({
-          'top': `${offset}px`
-        });
+      // Move clone into position in next run loop to allow template conditional
+      // to show the clone component.
+      next(this, function(){
+        scheduleOnce('afterRender', this, () => {
+          this.$('#gradient-layer-clone').css({
+            'opacity': 1,
+            'top': `${cloneTop}px`
+          });
+        });  
       });
     },
 

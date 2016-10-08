@@ -44,6 +44,7 @@ export default Component.extend(DraggableElement, {
       let mousePos = this.get('mousePos');
       let top = this.get('_elementTop');
       let bottom = this.get('_elementBottom');
+      
       if (isPositionBetween(mousePos, top, bottom)) {
         this.sendAction('swapOrder', 
           this.$(), this.get('gradientLayer'), this.get('cloneGradientLayer'));
@@ -70,8 +71,9 @@ export default Component.extend(DraggableElement, {
 
     if (event) {
       let offset = event.clientY - top;
-      this.set('_offset', offset);  
-      return offset;
+      this.set('_offset', offset);
+
+      return top;
     }
   },
 
@@ -79,9 +81,12 @@ export default Component.extend(DraggableElement, {
 		if (this.get('isCloneActive')) {
 			return;
 		}
+
 		run(() => {
-			let offset = this.initPosition(event);
-			this.sendAction('initClone', offset, this.get('gradientLayer'));
+      Ember.$('body').attr('style', 
+        'cursor: -webkit-grabbing; cursor: grabbing;');
+			let cloneTop = this.initPosition(event);
+			this.sendAction('initClone', cloneTop, this.get('gradientLayer'));
 		});  
 	},
 
@@ -101,6 +106,7 @@ export default Component.extend(DraggableElement, {
 	},
 
 	dragEnd() {
+    Ember.$('body').css('cursor', '');
 		this.sendAction('hideClone');
 	}  
 });
