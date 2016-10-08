@@ -1,0 +1,32 @@
+.gradient-controls button {
+	background: $base02;
+	border-radius: 20px;
+	display: block;
+	height: 40px;
+	left: 1em;
+	margin: 0;
+	min-width: 0;
+	padding: 0;
+	position: fixed;
+	width: 40px;
+}
+
+.gradient-controls button svg {
+	height: 15px;
+	left: 12.5px;
+	position: absolute;
+	top: 12.5px;
+	width: 15px;
+}
+
+.gradient-controls__add-gradient {
+	top: 128px;
+}
+
+.gradient-controls__add-gradient-layer {
+	top: 178px;
+}
+
+.gradient-controls__save-gradient {
+	top: 228px;
+}

@@ -45,6 +45,17 @@ export default Route.extend({
       this.get('controller').send('setActiveGradientLayer', newGradientLayer);
     },
 
+    saveGradient() {
+      this.get('controller.gradient.gradientLayers')
+        .forEach(gl => {
+          gl.get('gradientStops')
+            .forEach(gs => gs.save());
+          
+          gl.save();
+        });
+      this.get('controller.gradient').save();
+    },
+
     swapOrder(gradientLayerEl, gradientLayer, cloneGradientLayer) {
       if (this.get('_isSwappingOrder')) {
         return;

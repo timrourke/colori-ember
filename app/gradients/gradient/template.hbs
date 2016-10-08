@@ -1,9 +1,23 @@
-{{gradient-info
-	gradient=gradient
-}}
-
-<button {{action (route-action 'addGradientStop')}}>Add stop</button>
-<button {{action (route-action 'addGradientLayer')}}>Add layer</button>
+<div class="gradient-controls">
+	{{gradient-info
+		gradient=gradient
+	}}	
+	<button 
+		class="gradient-controls__add-gradient"
+		{{action (route-action 'addGradientStop')}}>
+		{{svg-icon name="eyedropper"}}
+	</button>
+	<button 
+		class="gradient-controls__add-gradient-layer"
+		{{action (route-action 'addGradientLayer')}}>
+		{{svg-icon name="layers"}}
+	</button>
+	<button 
+		class="gradient-controls__save-gradient"
+		{{action (route-action 'saveGradient')}}>
+		{{svg-icon name="disk"}}
+	</button>
+</div>
 
 {{gradient-dial
 	angle=activeGradientLayer.angle

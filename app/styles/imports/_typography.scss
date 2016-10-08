@@ -46,7 +46,7 @@ input[type="submit"] {
 		$base0D
 	);
 	border-radius: 3px;
-	box-shadow: 0 3px 3px rgba(0,0,0,0.125);
+	box-shadow: $shadow;
 	color: white;
 	cursor: pointer;
 	&:active,

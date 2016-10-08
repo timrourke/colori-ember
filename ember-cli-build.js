@@ -4,12 +4,25 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
-    // Add options here
+    // Autoprefixer
     autoprefixer: {
       browsers: ['last 10 ios version'],
       cascade: false,
       remove: false
-    }
+    },
+
+		// SVG Store
+		svgstore: {
+			files: {
+				sourceDirs: 'app/icons',
+				outputFile: '/assets/icons.svg'
+			}
+		},
+
+		// Inline content
+		inlineContent: {
+			'svgSpritesheet': 'dist/assets/icons.svg'
+		},
   });
 
 	if (app.env === 'test') {

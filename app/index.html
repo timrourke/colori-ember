@@ -26,6 +26,9 @@
     {{content-for "head-footer"}}
   </head>
   <body>
+		<div style="display: none;">
+			{{content-for 'svgSpritesheet'}}
+		</div>
     <div id="app" class="wrapper flex-container flex-direction--column">
       {{content-for "body"}}  
     </div>

@@ -5,8 +5,13 @@ const { later } = Ember.run;
 
 export default Component.extend({
   classNames: ['gradient-info'],
+  classNameBindings: [
+    'animating:gradient-info--animating',
+    'open:gradient-info--open:gradient-info--closed'
+  ],
   gradient: null,
   open: true,
+  isShowingIcon: false,
 
   click() {
     this.handleClick();
@@ -29,43 +34,50 @@ export default Component.extend({
   },
 
   closeSelf() {
-    var self = this;
-    
-    self.$('.gradient-info__title, .gradient-info__description').velocity({
+    this.set('animating', true);
+
+    this.$('.gradient-info__title, .gradient-info__description').velocity({
       colorAlpha: 0
     }, {
       complete: () => {
-        if (self.isDestroyed) {
+        if (this.isDestroyed) {
           return;
         }
 
         this.set('open', false);
 
-        self.$().velocity({
-          width: '50px',
-          height: '50px',
-          borderRadius: '25px'
+        this.$().velocity({
+          width: '40px',
+          height: '40px',
+          borderRadius: '20px'
+        }, {
+          complete: () => {
+            this.set('isShowingIcon', true);
+            this.set('animating', false);
+          }
         });
       }
     });
   },
 
   openSelf() {
-    var self = this;
+    this.set('animating', true);
+    this.set('isShowingIcon', false);
     
-    self.$().velocity({  
+    this.$().velocity({  
       width: '320px',
       height: '100%',
       borderRadius: 0
     },{
       complete: () => {
-        if (self.isDestroyed) {
+        if (this.isDestroyed) {
           return;
         }
 
         this.set('open', true);
+        this.set('animating', true);
 
-        self.$('.gradient-info__title, .gradient-info__description').velocity({
+        this.$('.gradient-info__title, .gradient-info__description').velocity({
           colorAlpha: 1
         });
       }
