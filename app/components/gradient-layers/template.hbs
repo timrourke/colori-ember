@@ -1,7 +1,7 @@
 <p>Layers</p>
 <ul>
 {{#each gradientLayers as |gradientLayer index|}}
-	<li {{action 'setActiveGradientLayer' gradientLayer}}>
+	<li>
 		{{gradient-layer
 			activeGradientLayerId=activeGradientLayerId
 			cloneTop=cloneTop
@@ -14,6 +14,7 @@
 			hideClone=(action 'hideClone')
 			initClone=(action 'initClone')
 			moveClone=(action 'moveClone')
+			click=(action 'setActiveGradientLayer' gradientLayer)
 			showClone=(action 'showClone')
 			swapOrder=(route-action 'swapOrder')
 		}}

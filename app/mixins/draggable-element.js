@@ -14,6 +14,7 @@ export default Mixin.create({
         if (this.isDestroyed || !this.get('_isDragging')) {
           return false;
         }
+
         this.handleMouseUp(e);
       });
 
@@ -21,7 +22,14 @@ export default Mixin.create({
         if (this.isDestroyed) {
           return false;
         }
+
         this.handleMouseDown(e);
+        
+        // Make sure Ember click handler still fires
+        if (typeof this.click === 'function') {
+          this.click();  
+        }
+        
         return false;
       });
 
@@ -29,6 +37,7 @@ export default Mixin.create({
         if (this.isDestroyed) {
           return false;
         }
+
         this.handleMouseMove(e);
       });
     });

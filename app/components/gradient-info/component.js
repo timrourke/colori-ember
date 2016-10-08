@@ -21,6 +21,10 @@ export default Component.extend({
     this._super(...arguments);
 
     later(this, function() {
+      if (this.isDestroyed) {
+        return;
+      }
+      
       this.closeSelf();
     }, 3000);
   },
