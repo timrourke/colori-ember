@@ -1,4 +1,4 @@
-import didAttrUpdate from 'colori/utils/did-attr-update';
+import didAttrUpdate from 'color-storm/utils/did-attr-update';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | did attr update');

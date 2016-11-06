@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import DraggableElementMixin from 'colori-ember/mixins/draggable-element';
+import DraggableElementMixin from 'color-storm/mixins/draggable-element';
 import { module, test } from 'qunit';
 
 module('Unit | Mixin | draggable element');
