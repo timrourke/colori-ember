@@ -46,14 +46,19 @@ export default Route.extend({
     },
 
     saveGradient() {
-      this.get('controller.gradient.gradientLayers')
-        .forEach(gl => {
-          gl.get('gradientStops')
-            .forEach(gs => gs.save());
-          
-          gl.save();
+      let gradient = this.get('controller.gradient');
+
+      gradient.set('body', this.get('controller.allGradientLayers'));
+
+      gradient.save().then(saveGradient => {
+        saveGradient.get('gradientLayers')
+          .forEach(gl => {
+            gl.save().then(() => {
+              gl.get('gradientStops')
+                .forEach(gs => gs.save());  
+            });  
         });
-      this.get('controller.gradient').save();
+      });
     },
 
     swapOrder(gradientLayerEl, gradientLayer, cloneGradientLayer) {

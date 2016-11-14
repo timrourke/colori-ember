@@ -18,7 +18,7 @@ module.exports = function(environment) {
     },
 
     DS: {
-      host: 'http://localhost:4000',
+      host: 'http://localhost:8080',
       namespace: 'api'
     },
 
@@ -49,7 +49,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-
+    ENV.DS.host = 'http://localhost:8080';
   }
 
   return ENV;

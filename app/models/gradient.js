@@ -8,7 +8,7 @@ export default Model.extend(ModelTimestamps, {
   bodyAutoprefixed: attr('string'),
   description:      attr('string'),
   permalink:        attr('string'),
-  title:            attr('string'),
+  title:            attr('string', { defaultValue: 'Untitled Gradient' }),
 
   user:           belongsTo('user'),
   gradientLayers: hasMany('gradient-layer'),  

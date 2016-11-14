@@ -4,6 +4,7 @@ const { Component } = Ember;
 const { later } = Ember.run;
 
 export default Component.extend({
+  animating: false,
   classNames: ['gradient-info'],
   classNameBindings: [
     'animating:gradient-info--animating',
@@ -11,6 +12,7 @@ export default Component.extend({
   ],
   gradient: null,
   open: true,
+  isEditing: false,
   isShowingIcon: false,
 
   click() {
@@ -29,7 +31,21 @@ export default Component.extend({
     }, 3000);
   },
 
+  actions: {
+    beginEditing() {
+      this.set('isEditing', true);
+    },
+
+    finishEditing() {
+      this.set('isEditing', false);
+    }
+  },
+
   handleClick() {
+    if (this.get('isEditing')) {
+      return;
+    }
+    
     if (this.get('open')) {
       this.closeSelf();
     } else {
@@ -42,7 +58,8 @@ export default Component.extend({
 
     this.$('.gradient-info__title, .gradient-info__description').velocity({
       colorAlpha: 0
-    }, {
+    }, 
+    {
       complete: () => {
         if (this.isDestroyed) {
           return;
@@ -54,7 +71,8 @@ export default Component.extend({
           width: '40px',
           height: '40px',
           borderRadius: '20px'
-        }, {
+        },
+        {
           complete: () => {
             this.set('isShowingIcon', true);
             this.set('animating', false);
@@ -69,10 +87,11 @@ export default Component.extend({
     this.set('isShowingIcon', false);
     
     this.$().velocity({  
-      width: '320px',
-      height: '100%',
-      borderRadius: 0
-    },{
+        width: '320px',
+        height: '100%',
+        borderRadius: 0
+      },
+      {
       complete: () => {
         if (this.isDestroyed) {
           return;

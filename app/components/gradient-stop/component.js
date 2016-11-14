@@ -188,7 +188,7 @@ export default Component.extend(ClickOutside, DraggableElement, {
         });
 
         let color = this.get('gradientStop.color');
-        this.$().css('backgroundColor', color);
+        this.$('.gradient-stop__background').css('backgroundColor', color);
         
         this.setBorderColor(r, g, b);
 
