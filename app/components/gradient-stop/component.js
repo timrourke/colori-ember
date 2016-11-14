@@ -27,12 +27,12 @@ export default Component.extend(ClickOutside, DraggableElement, {
     this._super(...arguments);
      
     // Synchronously set styles on init
-    this.setStyles();
+    this.setInitialStyles();
 
     // Initialize the gradient-stop's properties to catch any state changes
     // after model loads
     this.get('gradientStop').on('ready', () => {
-      this.setStyles();
+      this.setInitialStyles();
     });
   }),
 
@@ -51,6 +51,15 @@ export default Component.extend(ClickOutside, DraggableElement, {
   }),
 
   /**
+   * @param String color  The opaque CSS color value for the gradient stop
+   *
+   * Set the background color for the gradient stop
+   */
+  setBackgroundColor(color) {
+    this.$('.gradient-stop__background').css('backgroundColor', color);
+  },
+
+  /**
    * @param Number r  R value
    * @param Number g  G value
    * @param Number b  B value
@@ -61,12 +70,21 @@ export default Component.extend(ClickOutside, DraggableElement, {
     this.$('.gradient-stop__border').css({
       border: `2px solid rgb(${r}, ${g}, ${b})`
     });
+  },  
+
+  /**
+   * @param String color  The opaque CSS color value for the gradient stop
+   *
+   * Set the arrow color for the gradient stop
+   */
+  setArrowColor(color) {
+    this.$('button .arrow').css('border-bottom', `6px solid ${color}`);
   },
 
   /**
-   * Set gradient-stop position and color
+   * Set initial gradient-stop position and color
    */
-  setStyles() {
+  setInitialStyles() {
     let {
       r, 
       g, 
@@ -91,13 +109,9 @@ export default Component.extend(ClickOutside, DraggableElement, {
         left: `${this.get('gradientStop.left') - halfPercent}%`,
       });
 
-      this.$('.gradient-stop__background').css({
-        backgroundColor: color
-      });
-      
+      this.setBackgroundColor(color);
+      this.setArrowColor(color);
       this.setBorderColor(r, g, b);
-      
-      this.$('button .arrow').css('border-bottom', `6px solid ${color}`);
     });
   },
 
@@ -164,19 +178,21 @@ export default Component.extend(ClickOutside, DraggableElement, {
   },
 
   /**
-   * @param Object event  Event object
-   *
    * Handle dragStop of gradient-stop
    */
   dragEnd() {
     this.testColorPickerPosition();
   },
 
+
   actions: {
     /**
-     * @param String color  Color value
+     * @param Number r  R value
+     * @param Number g  G value
+     * @param Number b  B value
+     * @param Number a  A value
      *
-     * Update the gradient-stop's color value
+     * Update the gradient-stop's color value, and adjust its styles
      */
     colorChanged: function(r, g, b, a) {
       run(() => {
@@ -188,11 +204,10 @@ export default Component.extend(ClickOutside, DraggableElement, {
         });
 
         let color = this.get('gradientStop.color');
-        this.$('.gradient-stop__background').css('backgroundColor', color);
         
+        this.setBackgroundColor(color);
+        this.setArrowColor(color);
         this.setBorderColor(r, g, b);
-
-        this.$('button .arrow').css('border-bottom', `6px solid ${color}`);
       });
     },
   }
